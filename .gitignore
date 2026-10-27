@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/
+test-results/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-*
+*.log
+demos/weekly-report/flownote-demo.html

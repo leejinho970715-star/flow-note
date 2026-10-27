@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {randomBytes} from 'node:crypto';
+import {readFile} from 'node:fs/promises';
+
+const base=process.env.FLOWNOTE_URL||'http://127.0.0.1:3002',tag=randomBytes(6).toString('hex'),password=randomBytes(20).toString('base64url');
+const owner={},reviewer={},other={};
+async function call(who,path,body,status=200,overrides={}){
+  const r=await fetch(base+'/api/workspace/'+path,{method:body?'POST':'GET',headers:{...(body?{'Content-Type':'application/json','Origin':base,'X-CSRF-Token':who.csrf||''}:{}),...(who.cookie?{Cookie:who.cookie}:{}),...overrides},body:body?JSON.stringify(body):undefined});
+  const json=(r.headers.get('content-type')||'').includes('application/json');const data=json?await r.json():await r.text();
+  assert.equal(r.status,status,typeof data==='string'?data:JSON.stringify(data));
+  const cookie=r.headers.get('set-cookie');if(cookie)who.cookie=cookie.split(';')[0];if(data.csrf)who.csrf=data.csrf;
+  return data;
+}
+const register=(who,name)=>call(who,'register',{company:`HTTP 합성 테스트 ${tag}-${name}`,name,email:`${tag}-${name}@example.invalid`,password});
+const ownerSession=await register(owner,'owner');await register(other,'other');
+await call(owner,'actions',{action:'create_user',input:{name:'독립 검수자',email:`${tag}-review@example.invalid`,password,role:'reviewer'}});
+await call(reviewer,'login',{email:`${tag}-review@example.invalid`,password});
+const client=(await call(owner,'actions',{action:'create_client',input:{name:'라움리빙',csvId:'C01'}})).result;
+const project=(await call(owner,'actions',{action:'create_project',input:{clientId:client.id,name:'HTTP 통합 검증 프로젝트',campaigns:['브랜드 검색','리타겟팅'],start:'2026-10-01',end:'2026-12-31'}})).result;
+const csv=await readFile(new URL('../demos/weekly-report/fixtures/workspace-sample.csv',import.meta.url),'utf8');
+const prepared=(await call(owner,'actions',{action:'preview',input:{projectId:project.id,start:'2026-10-12',csv}})).result;
+const input={projectId:project.id,start:'2026-10-12',csv,mappingConfirmed:true,exclusionsAccepted:true,expectedHash:prepared.sourceHash,confirmation:prepared.confirmation,note:'HTTP 합성 테스트',filename:'synthetic.csv'};
+await call(owner,'actions',{action:'create_report',input:{...input,start:'2026-10-05'}},409);
+const first=(await call(owner,'actions',{action:'create_report',input})).result;
+assert.equal(first.snapshot.current.spendCents,27000000);
+await call(owner,'reports/'+first.id+'/download',null,409);
+await call(other,'reports/'+first.id,null,404);
+await call(other,'reports/'+first.id+'/download',null,404);
+await call(owner,'actions',{action:'transition',input:{id:first.id,action:'submit',note:'수동 대조 완료'}});
+await call(owner,'actions',{action:'transition',input:{id:first.id,action:'approve'}},403);
+await call(reviewer,'actions',{action:'create_client',input:{name:'권한 없는 고객',csvId:'C02'}},403);
+await call(reviewer,'actions',{action:'transition',input:{id:first.id,action:'approve',note:'독립 검수'}});
+const html=await call(owner,'reports/'+first.id+'/download?format=html');assert.match(html,/270,000/);assert.doesNotMatch(html,/모노핏|소담커피|담당자 검수 필요/);assert.match(html,/HTTP 통합 검증 프로젝트/);
+const csv2=csv.replaceAll('180000,30','181000,30');
+const p2=(await call(owner,'actions',{action:'preview',input:{projectId:project.id,start:'2026-10-12',csv:csv2}})).result;
+const second=(await call(owner,'actions',{action:'create_report',input:{...input,csv:csv2,expectedHash:p2.sourceHash,confirmation:p2.confirmation,note:'수치 수정'}})).result;
+assert.equal(second.version,2);assert.equal(second.status,'DRAFT');assert.equal(second.approvedAt,null);
+const old=(await call(owner,'reports/'+first.id)).report;assert.equal(old.status,'APPROVED');assert.equal(old.snapshot.current.spendCents,27000000);
+await call(owner,'actions',{action:'create_report',input:{...input,csv:csv2,expectedHash:p2.sourceHash,confirmation:p2.confirmation}},409);
+await call(owner,'actions',{action:'create_client',input:{name:'CSRF 거부',csvId:'C03'}},403,{'X-CSRF-Token':'invalid'});
+await call(owner,'actions',{action:'create_client',input:{name:'외부 출처 거부',csvId:'C03'}},403,{Origin:'https://example.invalid'});
+const refreshed=await call(owner,'state');assert.equal(refreshed.reports.length,2);assert.ok(refreshed.audit.some(a=>a.action==='APPROVE'));
+await call(owner,'logout',{});await call(owner,'state',null,401);
+console.log('HTTP 통합 검증 통과: 계정·세션·매핑·저장·독립승인·고객격리·불변버전·다운로드·중복·CSRF·출처·로그아웃 (합성 데이터, 실제 네트워크는 로컬만).');
