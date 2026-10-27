@@ -18,6 +18,8 @@ Vercel: https://flow-note-psi.vercel.app/ · 회사 계정: https://flow-note-ps
 
 DB 구조·가입 설정·조회/저장 쿼리는 [Supabase 운영 문서](supabase/README.md)를 참고하세요. `supabase/public-config.json`에는 브라우저용 publishable 키만 있습니다. 비밀키와 service_role 키는 브라우저에 넣지 않습니다.
 
+일반 고객의 가입 확인 메일 발송은 SMTP 서비스·발신 도메인 준비가 필요합니다. 현재 custom SMTP 미연결 상태로, 기본 메일은 Supabase 조직 구성원 주소에만 발송됩니다. 실제 메일 수신·확인·로그인 왕복은 미검증이며 가입 화면은 개발 검증 단계입니다.
+
 `vercel.json`은 출력 폴더를 `dist`로 지정하고 Vercel 빌드는 루트(`/`), Pages 빌드는 `/flow-note/` 경로를 사용합니다. Vercel 빌드 검증: `npm run build:vercel`.
 
 ## 로컬 운영판 실행
