@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
-const root=new URL('../dist/',import.meta.url),base='/flow-note/';
+import {base,origin} from './site-config.mjs';
+const root=new URL('../dist/',import.meta.url);
 const read=file=>readFile(new URL(file,root),'utf8');
 const html=await read('index.html'),app=await read('workspace.js');
 assert(!app.includes("fetch('/api/"),'Pages must never call local workspace APIs');
@@ -8,8 +9,8 @@ assert(app.includes('공개 체험판 · 아래 보고서와 승인 상태는 �
 assert(!app.includes('SQLite에 실제 저장'));
 assert(!app.includes('href="/workspace"'));
 assert(!html.includes('__FLOWNOTE_ORIGIN__'));
-assert(html.includes('https://leejinho970715-star.github.io/flow-note/assets/og-image.jpg'));
-assert((await read('app.js')).includes('href="/flow-note/"'));
+assert(html.includes(origin+base+'assets/og-image.jpg'));
+assert((await read('app.js')).includes(`href="${base}"`));
 const fixture=JSON.parse(await read('sample-workspace.json'));
 assert.equal(fixture.state.user.role,'viewer');
 assert.equal(fixture.state.projects.length,3);

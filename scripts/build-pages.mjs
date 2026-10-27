@@ -5,7 +5,7 @@ import {reportHTML,exportReportCSV} from '../demos/weekly-report/core.js';
 
 // Build only synthetic records in an ephemeral DB; never open the operator's database.
 const source=new URL('../demos/weekly-report/',import.meta.url),output=new URL('../dist/',import.meta.url);
-const base='/flow-note/',origin='https://leejinho970715-star.github.io';
+import {base,origin} from './site-config.mjs';
 const read=name=>readFile(new URL(name,source),'utf8');
 await Promise.all(['','assets/','fixtures/','downloads/','workspace/'].map(name=>mkdir(new URL(name,output),{recursive:true})));
 for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
@@ -63,4 +63,4 @@ await writeFile(new URL('workspace/index.html',output),html);
 await writeFile(new URL('csv.html',output),(await read('index.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base).replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base));
 await writeFile(new URL('app.js',output),(await read('app.js')).replaceAll('href="/workspace"',`href="${base}"`));
 await writeFile(new URL('.nojekyll',output),'');
-process.stdout.write('GitHub Pages public demo built: dist/ (synthetic data only; no server or credentials)\n');
+process.stdout.write(`Public demo built: dist/ at ${origin}${base} (synthetic data only; no server or credentials)\n`);
