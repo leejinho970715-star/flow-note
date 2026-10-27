@@ -20,7 +20,11 @@ assert(!/password|salt|session|csrfHash|password_hash/i.test(JSON.stringify(fixt
 const approved=fixture.state.reports.find(r=>r.status==='APPROVED');
 assert((await read(`downloads/${approved.id}.html`)).includes('라움리빙'));
 assert(!(await read(`downloads/${approved.id}.csv`)).includes('모노핏'));
-for(const page of ['index.html','workspace/index.html','csv.html']){
+const config=JSON.parse(await read('supabase-public.json'));
+assert(config.publishableKey.startsWith('sb_publishable_'));
+assert(!JSON.stringify(config).includes('sb_secret_'));
+assert((await read('account.js')).length>10000);
+for(const page of ['index.html','workspace/index.html','csv.html','account.html']){
  const content=await read(page);
  for(const [,url] of content.matchAll(/(?:href|src)="([^"?#]+)(?:[^"\s]*)"/g)){
   if(/^https?:|^data:/.test(url))continue;

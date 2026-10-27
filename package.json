@@ -1,6 +1,11 @@
 {
-  "name": "flow-note", "version": "0.1.0", "private": true, "type": "module",
-  "engines": {"node": "24.x"},
+  "name": "flow-note",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "start": "node demos/weekly-report/server.mjs",
     "dev": "node demos/weekly-report/server.mjs",
@@ -13,5 +18,11 @@
     "flownote:backup": "node demos/weekly-report/workspace-backup.mjs backup",
     "flownote:restore": "node demos/weekly-report/workspace-backup.mjs restore",
     "build:standalone": "node demos/weekly-report/build-standalone.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   }
 }

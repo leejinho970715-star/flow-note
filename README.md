@@ -10,9 +10,19 @@ https://leejinho970715-star.github.io/flow-note/
 - CSV 직접 체험: 브라우저에서 CSV를 검사·집계하고 고객별 HTML/CSV를 다운로드합니다. 입력 파일은 서버에 업로드하지 않습니다.
 - 공개 대시보드는 조회 전용입니다. 계정 생성·서버 저장·승인을 실행하지 않습니다. 가상 자료는 빌드할 때 메모리 DB에서만 생성하며 운영 DB나 비밀번호는 게시하지 않습니다.
 
-## 실제 저장·승인이 있는 로컬 운영판
+## Supabase 회사 계정과 Vercel
 
-Node.js 24 이상, 추가 패키지 설치 불필요.
+Vercel: https://flow-note-psi.vercel.app/ · 회사 계정: https://flow-note-psi.vercel.app/account.html
+
+공개 체험판과 실제 계정 자료를 분리했습니다. 회사 계정 화면은 Supabase 이메일 가입·로그인, 회사 공간 생성, 고객·프로젝트 저장, 기존 가입 회원의 팀 소속 추가를 지원합니다. 클라우드 보고서 작성·승인 화면은 아직 연결하지 않았으며 로컬 SQLite 자료도 자동 이관하지 않습니다. 보고서 누적·승인 DB와 RPC는 구축했고 실제 DB 검증은 `supabase/tests/tenant_workflow.sql`에 있습니다.
+
+DB 구조·가입 설정·조회/저장 쿼리는 [Supabase 운영 문서](supabase/README.md)를 참고하세요. `supabase/public-config.json`에는 브라우저용 publishable 키만 있습니다. 비밀키와 service_role 키는 브라우저에 넣지 않습니다.
+
+`vercel.json`은 출력 폴더를 `dist`로 지정하고 Vercel 빌드는 루트(`/`), Pages 빌드는 `/flow-note/` 경로를 사용합니다. Vercel 빌드 검증: `npm run build:vercel`.
+
+## 로컬 운영판 실행
+
+Node.js 24.x. 로컬 서버 자체는 Node 내장 기능을 사용하며, 공개 사이트 빌드에는 `npm ci`가 필요합니다.
 
 ```sh
 npm start

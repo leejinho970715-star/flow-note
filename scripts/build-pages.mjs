@@ -2,6 +2,8 @@ import {mkdir,readFile,writeFile,copyFile} from 'node:fs/promises';
 import {randomBytes} from 'node:crypto';
 import {WorkspaceStore} from '../demos/weekly-report/workspace-store.mjs';
 import {reportHTML,exportReportCSV} from '../demos/weekly-report/core.js';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
 
 // Build only synthetic records in an ephemeral DB; never open the operator's database.
 const source=new URL('../demos/weekly-report/',import.meta.url),output=new URL('../dist/',import.meta.url);
@@ -9,6 +11,11 @@ import {base,origin} from './site-config.mjs';
 const read=name=>readFile(new URL(name,source),'utf8');
 await Promise.all(['','assets/','fixtures/','downloads/','workspace/'].map(name=>mkdir(new URL(name,output),{recursive:true})));
 for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
+for(const file of ['account.html','account.css'])await copyFile(new URL(file,source),new URL(file,output));
+const publicConfig=JSON.parse(await readFile(new URL('../supabase/public-config.json',import.meta.url),'utf8'));
+if(!publicConfig.publishableKey?.startsWith('sb_publishable_'))throw new Error('Only a publishable Supabase key may be included in the site.');
+await writeFile(new URL('supabase-public.json',output),JSON.stringify(publicConfig));
+await build({entryPoints:[fileURLToPath(new URL('account.js',source))],outfile:fileURLToPath(new URL('account.js',output)),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
 const store=new WorkspaceStore(':memory:');
 let sampleState,details={};
 try{
@@ -46,6 +53,7 @@ app=app.replace("const roleText={owner:","const roleText={viewer:'공개 체험'
 app=app.replace("['compose','새 보고서','03']","['csv','CSV 직접 체험','03']");
 app=app.replace("if(el.dataset.nav){view=",`if(el.dataset.nav==='csv'){location.href='${base}csv.html';return;}\n  if(el.dataset.nav){view=`);
 app=app.replace('<button class="quiet" data-action="logout">로그아웃</button>','');
+app=app.replace('<button class="help-search-trigger"',`<a class="button outline" href="${base}account.html">가입 · 로그인</a><button class="help-search-trigger"`);
 app=app.replace('SQLite에 실제 저장','공개 체험판 · 가상 자료');
 app=app.replace('로컬 운영판 · 외부 서비스 미연동<br>실제 고객 납품 검증 전','조회 전용 · 계정/서버 저장 없음<br>CSV 체험은 브라우저에서 처리');
 app=app.replace('보고서 상태와 승인·저장 기능은 실제로 동작합니다. 고객 실적이 아닙니다. 체험 계정은 로그아웃하면 다시 접근할 수 없습니다.','공개 체험판 · 아래 보고서와 승인 상태는 가상 예시입니다. 계정·저장·승인은 로컬 운영판에서만 동작합니다. CSV 직접 체험에서 자료를 넣어 집계할 수 있습니다.');
