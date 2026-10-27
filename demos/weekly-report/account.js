@@ -39,7 +39,9 @@ root.addEventListener('click',event=>{const button=event.target.closest('button'
  if(button.dataset.action==='logout')run(async()=>{await result(client.auth.signOut());user=null;companyId='';generation++;authView();say('로그아웃했습니다.');});
 });
 root.addEventListener('change',event=>{if(event.target.id==='company'&&!busy){companyId=event.target.value;run(refresh);}});
-try{
+if(location.hostname.endsWith('.github.io')){
+ root.innerHTML='<section class="card"><h2>회사 계정은 Vercel 운영 주소에서 사용하세요.</h2><a class="button primary" href="https://flow-note-psi.vercel.app/account.html">회원가입 · 로그인 열기</a><p class="hint">GitHub Pages는 공개 체험판입니다. 인증 반환 주소가 설정된 Vercel에서 계속하세요.</p></section>';
+}else try{
  const config=await fetch('./supabase-public.json').then(r=>{if(!r.ok)throw new Error('클라우드 공개 연결 설정을 불러오지 못했습니다.');return r.json();});
  if(!config.publishableKey.startsWith('sb_publishable_'))throw new Error('공개 클라이언트 키 설정을 확인하세요.');
  client=createClient(config.url,config.publishableKey,{auth:{flowType:'pkce',detectSessionInUrl:true}});

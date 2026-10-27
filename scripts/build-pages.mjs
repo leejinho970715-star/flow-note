@@ -53,7 +53,7 @@ app=app.replace("const roleText={owner:","const roleText={viewer:'공개 체험'
 app=app.replace("['compose','새 보고서','03']","['csv','CSV 직접 체험','03']");
 app=app.replace("if(el.dataset.nav){view=",`if(el.dataset.nav==='csv'){location.href='${base}csv.html';return;}\n  if(el.dataset.nav){view=`);
 app=app.replace('<button class="quiet" data-action="logout">로그아웃</button>','');
-app=app.replace('<button class="help-search-trigger"',`<a class="button outline" href="${base}account.html">가입 · 로그인</a><button class="help-search-trigger"`);
+app=app.replace('<button class="help-search-trigger"',`<a class="button outline" href="${base==='/'?'/account.html':'https://flow-note-psi.vercel.app/account.html'}">가입 · 로그인</a><button class="help-search-trigger"`);
 app=app.replace('SQLite에 실제 저장','공개 체험판 · 가상 자료');
 app=app.replace('로컬 운영판 · 외부 서비스 미연동<br>실제 고객 납품 검증 전','조회 전용 · 계정/서버 저장 없음<br>CSV 체험은 브라우저에서 처리');
 app=app.replace('보고서 상태와 승인·저장 기능은 실제로 동작합니다. 고객 실적이 아닙니다. 체험 계정은 로그아웃하면 다시 접근할 수 없습니다.','공개 체험판 · 아래 보고서와 승인 상태는 가상 예시입니다. 계정·저장·승인은 로컬 운영판에서만 동작합니다. CSV 직접 체험에서 자료를 넣어 집계할 수 있습니다.');
@@ -71,4 +71,4 @@ await writeFile(new URL('workspace/index.html',output),html);
 await writeFile(new URL('csv.html',output),(await read('index.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base).replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base));
 await writeFile(new URL('app.js',output),(await read('app.js')).replaceAll('href="/workspace"',`href="${base}"`));
 await writeFile(new URL('.nojekyll',output),'');
-process.stdout.write(`Public demo built: dist/ at ${origin}${base} (synthetic data only; no server or credentials)\n`);
+process.stdout.write(`Public site built: dist/ at ${origin}${base} (no customer data, database files or secret keys)\n`);

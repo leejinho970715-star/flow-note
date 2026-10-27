@@ -38,6 +38,8 @@ Supabase 대시보드 → Authentication → URL Configuration:
 - Pages에서도 가입 확인을 지원할 경우 `https://leejinho970715-star.github.io/flow-note/account.html`을 별도로 추가.
 - 실제 운영 도메인만 추가한다. 임의의 preview 도메인 전체 와일드카드는 사용하지 않는다.
 
+위 Vercel Site URL과 Redirect URL은 CEO 확인 후 실제 대시보드에 저장한 상태다. Pages의 가입 버튼은 이 Vercel 계정 화면을 연다. 실제 사용자의 메일 수신→이메일 확인→로그인 전체 왕복은 아직 검증하지 않았다.
+
 이메일 로그인 제공자와 신규 가입 허용을 확인하고 이메일 확인을 유지한다. 현재 DB는 확인되지 않은 계정/익명 로그인으로 회사 생성·업무 쓰기를 허용하지 않는다. 커스텀 SMTP·메일 전달률·스팸함·실사용 계정의 확인 링크 왕복은 별도 검증 사항이다. Auth 정책을 약화해 테스트를 통과시키지 않는다.
 
 ```js
