@@ -1,10 +1,81 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {quoteTotal,estimateQuote,point,readOnly,type Org} from '../agencyflow/lib/domain.ts';
-test('quotes calculate VAT from the combined subtotal',()=>assert.deepEqual(quoteTotal([{name:'Design',quantity:3,unitPrice:10001}]),{subtotal:30003,vat:3000,total:33003}));
-test('invalid quantity and fractional money are rejected',()=>{for(const q of [0,-1,1.5])assert.throws(()=>quoteTotal([{name:'X',quantity:q,unitPrice:1}]));assert.throws(()=>quoteTotal([{name:'X',quantity:1,unitPrice:1.5}]));});
-test('oversized quotes and empty descriptions are rejected',()=>{assert.throws(()=>quoteTotal([{name:'X',quantity:10000,unitPrice:100000000}]));assert.throws(()=>quoteTotal([{name:' ',quantity:1,unitPrice:1}]));});
-test('pin coordinates survive resizing because stored as fractions',()=>{assert.deepEqual(point(.25,.5),{x:.25,y:.5});for(const p of [-1,1.001,NaN])assert.throws(()=>point(p,.5));});
-test('trial deadline is exclusive and past-due does not grant paid access',()=>{const now=Date.now();const org={subscription_status:'trialing',trial_ends_at:new Date(now).toISOString()} as Org;assert.equal(readOnly(org,now),true);assert.equal(readOnly({...org,trial_ends_at:new Date(now+1).toISOString()},now),false);assert.equal(readOnly({...org,subscription_status:'active'},now),false);assert.equal(readOnly({...org,subscription_status:'past_due'},now),true);});
-test('scope estimator calculates page and difficulty inputs, not an unverifiable market price',()=>{const lines=estimateQuote({pages:3,pageRate:100000,mainRate:200000,design:1.3,development:1.4,features:['게시판']});assert.equal(lines[0].unitPrice,260000);assert.equal(lines[1].unitPrice,140000);assert.equal(quoteTotal(lines).subtotal,930000);});
-test('estimator rejects unknown features and impossible page counts',()=>{assert.throws(()=>estimateQuote({pages:0,pageRate:1,mainRate:1,design:1,development:1,features:[]}));assert.throws(()=>estimateQuote({pages:1,pageRate:1,mainRate:1,design:1,development:1,features:['unsupported']}));});
+import test from "node:test";
+import assert from "node:assert/strict";
+import {
+  quoteTotal,
+  estimateQuote,
+  point,
+  readOnly,
+  type Org,
+} from "../agencyflow/lib/domain.ts";
+test("quotes calculate VAT from the combined subtotal", () =>
+  assert.deepEqual(
+    quoteTotal([{ name: "Design", quantity: 3, unitPrice: 10001 }]),
+    { subtotal: 30003, vat: 3000, total: 33003 },
+  ));
+test("invalid quantity and fractional money are rejected", () => {
+  for (const q of [0, -1, 1.5])
+    assert.throws(() => quoteTotal([{ name: "X", quantity: q, unitPrice: 1 }]));
+  assert.throws(() => quoteTotal([{ name: "X", quantity: 1, unitPrice: 1.5 }]));
+});
+test("oversized quotes and empty descriptions are rejected", () => {
+  assert.throws(() =>
+    quoteTotal([{ name: "X", quantity: 10000, unitPrice: 100000000 }]),
+  );
+  assert.throws(() => quoteTotal([{ name: " ", quantity: 1, unitPrice: 1 }]));
+});
+test("pin coordinates survive resizing because stored as fractions", () => {
+  assert.deepEqual(point(0.25, 0.5), { x: 0.25, y: 0.5 });
+  for (const p of [-1, 1.001, NaN]) assert.throws(() => point(p, 0.5));
+});
+test("trial deadline is exclusive and past-due does not grant paid access", () => {
+  const now = Date.now();
+  const org = {
+    subscription_status: "trialing",
+    trial_ends_at: new Date(now).toISOString(),
+  } as Org;
+  assert.equal(readOnly(org, now), true);
+  assert.equal(
+    readOnly({ ...org, trial_ends_at: new Date(now + 1).toISOString() }, now),
+    false,
+  );
+  assert.equal(readOnly({ ...org, subscription_status: "active" }, now), false);
+  assert.equal(
+    readOnly({ ...org, subscription_status: "past_due" }, now),
+    true,
+  );
+});
+test("scope estimator calculates page and difficulty inputs, not an unverifiable market price", () => {
+  const lines = estimateQuote({
+    pages: 3,
+    pageRate: 100000,
+    mainRate: 200000,
+    design: 1.3,
+    development: 1.4,
+    features: ["게시판"],
+  });
+  assert.equal(lines[0].unitPrice, 260000);
+  assert.equal(lines[1].unitPrice, 140000);
+  assert.equal(quoteTotal(lines).subtotal, 930000);
+});
+test("estimator rejects unknown features and impossible page counts", () => {
+  assert.throws(() =>
+    estimateQuote({
+      pages: 0,
+      pageRate: 1,
+      mainRate: 1,
+      design: 1,
+      development: 1,
+      features: [],
+    }),
+  );
+  assert.throws(() =>
+    estimateQuote({
+      pages: 1,
+      pageRate: 1,
+      mainRate: 1,
+      design: 1,
+      development: 1,
+      features: ["unsupported"],
+    }),
+  );
+});

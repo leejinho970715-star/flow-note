@@ -12,7 +12,7 @@ const read=name=>readFile(new URL(name,source),'utf8');
 await Promise.all(['','assets/','fixtures/','downloads/','workspace/'].map(name=>mkdir(new URL(name,output),{recursive:true})));
 for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
 await copyFile(new URL('account.css',source),new URL('account.css',output));
-await writeFile(new URL('account.html',output),(await read('account.html')).replace('체험판으로 돌아가기','서비스 소개로 돌아가기').replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
+await writeFile(new URL('account.html',output),(await read('account.html')).replace('<a class="button outline" href="./">체험판으로 돌아가기</a>','<a class="button outline" href="https://flownote-studio.vercel.app/">서비스 소개로 돌아가기</a>').replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
 const publicConfig=JSON.parse(await readFile(new URL('../supabase/public-config.json',import.meta.url),'utf8'));
 if(!publicConfig.publishableKey?.startsWith('sb_publishable_'))throw new Error('Only a publishable Supabase key may be included in the site.');
 await writeFile(new URL('supabase-public.json',output),JSON.stringify(publicConfig));
@@ -64,7 +64,7 @@ app=app.replace("name:'자료 확인 · 초안 작성',desc:'CSV를 넣고 원�
 app=app.replace('체크 표시는 저장된 자료의 준비 상태입니다. 다운로드·고객 수신을 자동 확인한 표시는 아닙니다.','아래는 가상 작업 흐름 예시입니다. 공개 체험판은 조회 전용이며 CSV 직접 체험은 브라우저 안에서 동작합니다.');
 app=app.replace("if(el.dataset.helpView){if(state)",`if(el.dataset.helpView==='compose'){location.href='${base}csv.html';return;}\n  if(el.dataset.helpView){if(state)`);
 app=app.replaceAll('/api/workspace/reports/${r.id}/download?format=html',base+'downloads/${r.id}.html').replaceAll('/api/workspace/reports/${r.id}/download?format=csv',base+'downloads/${r.id}.csv');
-app=app.replace('<div class="rail-bottom">',`<div class="rail-bottom"><a href="${base}">← 서비스 소개</a>`);
+app=app.replace('<div class="rail-bottom">',`<div class="rail-bottom"><a href="https://flownote-studio.vercel.app/">← 서비스 소개</a><a href="https://agencyflow-studio-dun.vercel.app/">AgencyFlow 시안 피드백 ↗</a>`);
 app=app.replaceAll("from '/","from '"+base).replaceAll('src="/','src="'+base).replaceAll('href="/workspace"',`href="${base}workspace/"`).replaceAll('href="/"',`href="${base}csv.html"`);
 await writeFile(new URL('workspace.js',output),app);
 const html=(await read('workspace.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base+'workspace/').replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base).replaceAll('src="/','src="'+base).replace('</head>','<meta name="robots" content="noindex,follow"></head>');

@@ -32,3 +32,5 @@ DB 검증: `supabase/tests/agencyflow_workflow.sql`은 실제 Postgres에서 익
 AgencyFlow 전용 바이올렛 말풍선 favicon(SVG/32px PNG/180px Apple), `public/og-agencyflow.png`1200×630. 공유 카드 소스는 `branding/social-preview.html`, 시안은 자체 작성 `public/sample-design.svg`(가상 브랜드)입니다. 기존 회사 랜딩은 오렌지 문서 아이콘과 별도 `marketing/assets/og-studio.png`를 사용합니다. 신규 AI 이미지 호출 없이 코드 기반 자산과 기존 클레이 이미지를 재구성했습니다.
 
 서버 빌드 시 출력되는 설명·FAQ·가격 범위·독립 canonical·OG/Twitter·SoftwareApplication/WebSite JSON-LD·robots·sitemap을 제공합니다. 워크스페이스는 noindex이며 검색/AI 인용을 보장하지 않습니다. SEO를 위해 고객 자료·메일·견적을 공개하지 않습니다.
+
+브라우저 검증: 7개 메뉴×7개 너비(320/360/390/430/768/1024/1280px) 49개 조합에서 페이지 넘침·좁은 문단·14px 미만 글자 없음. 핀 등록→답글→처리 완료→고객 승인→재방문 유지, 승인된 v1 유지→실제 새 이미지 v2 업로드, 옵션 견적 계산→새 버전→고객 공개·승인, 고객 등록 모달 저장을 샘플 모드에서 확인했습니다. 실제 고객 간 HTTP 파일 전송·메일 인증·결제는 이 샘플 검증에 포함하지 않습니다.

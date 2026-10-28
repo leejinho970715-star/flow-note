@@ -14,9 +14,9 @@ assert(workspace.includes(origin+base+'assets/og-image.jpg'));
 assert(workspace.includes(origin+base+'workspace/'));
 assert((await read('app.js')).includes(`href="${base}workspace/"`));
 assert.equal((html.match(/<h1\b/g)||[]).length,1);
-assert(html.includes('https://flow-note-psi.vercel.app/'));
+assert(html.includes('https://flownote-studio.vercel.app/'));
 assert(html.includes('https://t.me/evanlee97'));
-assert(html.includes('https://flow-note-psi.vercel.app/marketing/og-flownote.png'));
+assert(html.includes('https://flownote-studio.vercel.app/marketing/og-flownote.png'));
 assert(html.includes('property="og:image:height" content="630"'));
 for(const [file,width,height] of [['og-flownote.png',1200,630],['favicon-32.png',32,32],['apple-touch-icon.png',180,180]]){
  const png=await readFile(new URL('marketing/'+file,root));
@@ -32,8 +32,8 @@ assert(!/__BASE__|__SCHEMA__|__FAQ_HTML__|__CANONICAL__|__IMAGE_URL__/.test(html
 const schema=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
 assert(schema['@graph'].some(item=>item['@type']==='Service'));
 assert(!JSON.stringify(schema).includes('aggregateRating'));
-assert((await read('robots.txt')).includes('Sitemap: https://flow-note-psi.vercel.app/sitemap.xml'));
-assert((await read('sitemap.xml')).includes('<loc>https://flow-note-psi.vercel.app/</loc>'));
+assert((await read('robots.txt')).includes('Sitemap: https://flownote-studio.vercel.app/sitemap.xml'));
+assert((await read('sitemap.xml')).includes('<loc>https://flownote-studio.vercel.app/</loc>'));
 const fixture=JSON.parse(await read('sample-workspace.json'));
 assert.equal(fixture.state.user.role,'viewer');
 assert.equal(fixture.state.projects.length,3);

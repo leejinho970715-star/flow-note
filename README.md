@@ -4,11 +4,13 @@
 
 ## 서비스 소개와 공개 체험판
 
-서비스 소개: https://flow-note-psi.vercel.app/
+회사·서비스 소개: https://flownote-studio.vercel.app/
+
+AgencyFlow: https://agencyflow-studio-dun.vercel.app/ · Flownote 대시보드: https://flow-note-psi.vercel.app/workspace/
 
 Flownote 도입과 맞춤 ERP·PMS·CRM 구축을 안내합니다. 문의는 텔레그램으로 고객이 직접 전송합니다. 랜딩 제작·가격 범위·이미지·검증 기록은 [제작 기록](marketing/README.md)을 참고하세요.
 
-https://leejinho970715-star.github.io/flow-note/
+https://leejinho970715-star.github.io/flow-note/workspace/
 
 - 대시보드: 고객·프로젝트, 가상 보고서 상태, 승인본 다운로드, 팀 역할 예시, 변경 기록, 사용 매뉴얼과 검색형 도움말을 둘러봅니다.
 - CSV 직접 체험: 브라우저에서 CSV를 검사·집계하고 고객별 HTML/CSV를 다운로드합니다. 입력 파일은 서버에 업로드하지 않습니다.
@@ -56,3 +58,11 @@ main에 푸시하면 GitHub Actions가 Node 24 테스트 → 공개 체험판 �
 Pretendard를 로컬 제공하며 최소 글자 크기는 14px입니다. 녹색 채움은 주요 실행, 흰 배경 테두리는 보조 실행, 연한 배경 영역은 탐색·도움말에 사용합니다. 사이드바의 구분선과 선택 메뉴의 왼쪽 선을 제거했습니다. 폰트 라이선스: `demos/weekly-report/assets/Pretendard-LICENSE.txt`.
 
 개발 상세·입력 계약은 [운영 매뉴얼](demos/weekly-report/README.md)을 참고하세요. 실제 고객의 구매 의사나 시간 절감·수익은 검증하지 않았습니다.
+
+## 제품별 독립 배포 (2026-10-28)
+
+- Flownote 보고 대시보드: https://flow-note-psi.vercel.app/workspace/ (기존 루트는 이 경로로 연결)
+- 회사 소개·맞춤 개발: https://flownote-studio.vercel.app/
+- AgencyFlow 고객 피드백: https://agencyflow-studio-dun.vercel.app/
+
+같은 저장소를 세 Vercel 프로젝트가 사용하지만 `FLOWNOTE_TARGET`에 따라 서로 다른 결과물을 생성합니다. 별도 favicon·OG와 정식 canonical을 사용하며, GitHub Pages 회사 소개 미러는 정식 Studio 주소를 canonical로 지정합니다. AgencyFlow 구현 범위와 미연동 기능은 [AgencyFlow 운영 문서](agencyflow/README.md), 수요·경쟁·가격·30일 검증은 [제품 진단](docs/agencyflow-product-review.md)을 확인하세요.
