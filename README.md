@@ -2,7 +2,11 @@
 
 고객별 자료 확인부터 보고서 승인과 보관까지 한곳에서 정리하는 소형 마케팅대행사용 템플릿입니다. 예시 고객과 수치는 모두 가상입니다.
 
-## 공개 체험판
+## 서비스 소개와 공개 체험판
+
+서비스 소개: https://flow-note-psi.vercel.app/
+
+Flownote 도입과 맞춤 ERP·PMS·CRM 구축을 안내합니다. 문의는 텔레그램으로 고객이 직접 전송합니다. 랜딩 제작·가격 범위·이미지·검증 기록은 [제작 기록](marketing/README.md)을 참고하세요.
 
 https://leejinho970715-star.github.io/flow-note/
 

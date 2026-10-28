@@ -4,13 +4,27 @@ import {base,origin} from './site-config.mjs';
 const root=new URL('../dist/',import.meta.url);
 const read=file=>readFile(new URL(file,root),'utf8');
 const html=await read('index.html'),app=await read('workspace.js');
+const workspace=await read('workspace/index.html');
 assert(!app.includes("fetch('/api/"),'Pages must never call local workspace APIs');
 assert(app.includes('공개 체험판 · 아래 보고서와 승인 상태는 가상 예시입니다.'));
 assert(!app.includes('SQLite에 실제 저장'));
 assert(!app.includes('href="/workspace"'));
 assert(!html.includes('__FLOWNOTE_ORIGIN__'));
-assert(html.includes(origin+base+'assets/og-image.jpg'));
-assert((await read('app.js')).includes(`href="${base}"`));
+assert(workspace.includes(origin+base+'assets/og-image.jpg'));
+assert(workspace.includes(origin+base+'workspace/'));
+assert((await read('app.js')).includes(`href="${base}workspace/"`));
+assert.equal((html.match(/<h1\b/g)||[]).length,1);
+assert(html.includes('https://flow-note-psi.vercel.app/'));
+assert(html.includes('https://t.me/evanlee97'));
+assert(html.includes('19만 9천')&&html.includes('총 59만')&&html.includes('월 5만'));
+assert(html.includes('유지관리는 서버 이용권'));
+assert(html.includes('자동 전송·접수되지 않습니다.'));
+assert(!/__BASE__|__SCHEMA__|__FAQ_HTML__|__CANONICAL__|__IMAGE_URL__/.test(html));
+const schema=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert(schema['@graph'].some(item=>item['@type']==='Service'));
+assert(!JSON.stringify(schema).includes('aggregateRating'));
+assert((await read('robots.txt')).includes('Sitemap: https://flow-note-psi.vercel.app/sitemap.xml'));
+assert((await read('sitemap.xml')).includes('<loc>https://flow-note-psi.vercel.app/</loc>'));
 const fixture=JSON.parse(await read('sample-workspace.json'));
 assert.equal(fixture.state.user.role,'viewer');
 assert.equal(fixture.state.projects.length,3);
@@ -30,7 +44,8 @@ for(const page of ['index.html','workspace/index.html','csv.html','account.html'
   if(/^https?:|^data:/.test(url))continue;
   const file=url.startsWith(base)?url.slice(base.length):url.replace(/^\.\//,'');
   if(!file)continue;
-  assert((await stat(new URL(file,root))).isFile(),`${page}: missing ${url}`);
+  const entry=await stat(new URL(file,root));
+  assert(entry.isFile()||(entry.isDirectory()&&(await stat(new URL(file.replace(/\/?$/,'/')+'index.html',root))).isFile()),`${page}: missing ${url}`);
  }
 }
 async function inspect(dir=''){

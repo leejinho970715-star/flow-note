@@ -4,7 +4,7 @@
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "installCommand": "npm ci",
-  "rewrites": [{"source": "/workspace", "destination": "/index.html"}],
+  "rewrites": [{"source": "/workspace", "destination": "/workspace/index.html"}],
   "headers": [
     {"source": "/(.*)", "headers": [
       {"key": "X-Content-Type-Options", "value": "nosniff"},

@@ -11,7 +11,8 @@ import {base,origin} from './site-config.mjs';
 const read=name=>readFile(new URL(name,source),'utf8');
 await Promise.all(['','assets/','fixtures/','downloads/','workspace/'].map(name=>mkdir(new URL(name,output),{recursive:true})));
 for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
-for(const file of ['account.html','account.css'])await copyFile(new URL(file,source),new URL(file,output));
+await copyFile(new URL('account.css',source),new URL('account.css',output));
+await writeFile(new URL('account.html',output),(await read('account.html')).replace('체험판으로 돌아가기','서비스 소개로 돌아가기').replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
 const publicConfig=JSON.parse(await readFile(new URL('../supabase/public-config.json',import.meta.url),'utf8'));
 if(!publicConfig.publishableKey?.startsWith('sb_publishable_'))throw new Error('Only a publishable Supabase key may be included in the site.');
 await writeFile(new URL('supabase-public.json',output),JSON.stringify(publicConfig));
@@ -30,7 +31,7 @@ try{
     r=store.transition(author,{id:r.id,action:'submit',note:'가상 검수 요청 예시'});
     if(i===0){
       r=store.transition(owner.user,{id:r.id,action:'approve',note:'빌드 시 만든 가상 승인 예시. 실제 고객 승인이 아닙니다.'});
-      await writeFile(new URL(`downloads/${r.id}.html`,output),reportHTML(r.snapshot,true,font));
+      await writeFile(new URL(`downloads/${r.id}.html`,output),reportHTML(r.snapshot,true,font).replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
       await writeFile(new URL(`downloads/${r.id}.csv`,output),exportReportCSV(r.snapshot));
     }
     details[r.id]=r;
@@ -63,12 +64,13 @@ app=app.replace("name:'자료 확인 · 초안 작성',desc:'CSV를 넣고 원�
 app=app.replace('체크 표시는 저장된 자료의 준비 상태입니다. 다운로드·고객 수신을 자동 확인한 표시는 아닙니다.','아래는 가상 작업 흐름 예시입니다. 공개 체험판은 조회 전용이며 CSV 직접 체험은 브라우저 안에서 동작합니다.');
 app=app.replace("if(el.dataset.helpView){if(state)",`if(el.dataset.helpView==='compose'){location.href='${base}csv.html';return;}\n  if(el.dataset.helpView){if(state)`);
 app=app.replaceAll('/api/workspace/reports/${r.id}/download?format=html',base+'downloads/${r.id}.html').replaceAll('/api/workspace/reports/${r.id}/download?format=csv',base+'downloads/${r.id}.csv');
-app=app.replaceAll("from '/","from '"+base).replaceAll('src="/','src="'+base).replaceAll('href="/workspace"',`href="${base}"`).replaceAll('href="/"',`href="${base}csv.html"`);
+app=app.replace('<div class="rail-bottom">',`<div class="rail-bottom"><a href="${base}">← 서비스 소개</a>`);
+app=app.replaceAll("from '/","from '"+base).replaceAll('src="/','src="'+base).replaceAll('href="/workspace"',`href="${base}workspace/"`).replaceAll('href="/"',`href="${base}csv.html"`);
 await writeFile(new URL('workspace.js',output),app);
-const html=(await read('workspace.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base).replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base).replaceAll('src="/','src="'+base);
-await writeFile(new URL('index.html',output),html);
+const html=(await read('workspace.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base+'workspace/').replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base).replaceAll('src="/','src="'+base).replace('</head>','<meta name="robots" content="noindex,follow"></head>');
 await writeFile(new URL('workspace/index.html',output),html);
-await writeFile(new URL('csv.html',output),(await read('index.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base).replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base));
-await writeFile(new URL('app.js',output),(await read('app.js')).replaceAll('href="/workspace"',`href="${base}"`));
+await writeFile(new URL('csv.html',output),(await read('index.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base+'csv.html').replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base).replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
+await writeFile(new URL('app.js',output),(await read('app.js')).replaceAll('href="/workspace"',`href="${base}workspace/"`));
 await writeFile(new URL('.nojekyll',output),'');
+await import('./build-landing.mjs');
 process.stdout.write(`Public site built: dist/ at ${origin}${base} (no customer data, database files or secret keys)\n`);
