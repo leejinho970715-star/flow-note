@@ -370,18 +370,10 @@ export async function upload(
     const key = await demoImage(file);
     return { path: "idb:" + key, image_url: URL.createObjectURL(file) };
   }
-  const path =
-    org.id +
-    "/" +
-    projectId +
-    "/" +
-    id() +
-    "." +
-    (file.type === "image/png"
-      ? "png"
-      : file.type === "image/webp"
-        ? "webp"
-        : "jpg");
+  const reservation = await command('reserve_upload', {
+    org_id: org.id, project_id: projectId, bytes: file.size, mime: file.type,
+  });
+  const path = String(reservation.path);
   const { error } = await db.storage
     .from("agencyflow-designs")
     .upload(path, file, { upsert: false, contentType: file.type });

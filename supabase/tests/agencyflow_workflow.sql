@@ -27,11 +27,12 @@ end$$;
 select pg_temp.must_fail('update public.af_members set role=''admin''');
 select pg_temp.must_fail(format($x$select public.agencyflow_command('save_client','{"org_id":"%s","name":"forged"}')$x$,current_setting('af_test.b')));
 select pg_temp.must_fail(format($x$select public.agencyflow_command('quote','{"org_id":"%s","project_id":"%s","lines":[{"name":"bad","quantity":-1,"unitPrice":100}]}')$x$,current_setting('af_test.a'),current_setting('af_test.p')));
+do $$declare slot jsonb;begin slot:=public.agencyflow_command('reserve_upload',jsonb_build_object('org_id',current_setting('af_test.a'),'project_id',current_setting('af_test.p'),'bytes',1024,'mime','image/png'));perform set_config('af_test.path',slot->>'path',true);end$$;
 reset role;
-insert into storage.objects(bucket_id,name,owner_id,metadata) values('agencyflow-designs',current_setting('af_test.a')||'/'||current_setting('af_test.p')||'/test.png','f20a0000-0000-4000-8000-000000000001','{"size":1024,"mimetype":"image/png"}');
+insert into storage.objects(bucket_id,name,owner_id,metadata) values('agencyflow-designs',current_setting('af_test.path'),'f20a0000-0000-4000-8000-000000000001','{"size":1024,"mimetype":"image/png"}');
 set local role authenticated;
 select set_config('request.jwt.claim.sub','f20a0000-0000-4000-8000-000000000001',true);
-do $$declare v jsonb;begin v:=public.agencyflow_command('version',jsonb_build_object('org_id',current_setting('af_test.a'),'project_id',current_setting('af_test.p'),'title','v1','path',current_setting('af_test.a')||'/'||current_setting('af_test.p')||'/test.png'));perform set_config('af_test.v',v->>'id',true);end$$;
+do $$declare v jsonb;begin v:=public.agencyflow_command('version',jsonb_build_object('org_id',current_setting('af_test.a'),'project_id',current_setting('af_test.p'),'title','v1','path',current_setting('af_test.path')));perform set_config('af_test.v',v->>'id',true);end$$;
 select pg_temp.must_fail(format($x$select public.agencyflow_command('approve_version','{"org_id":"%s","project_id":"%s","version_id":"%s"}')$x$,current_setting('af_test.a'),current_setting('af_test.p'),current_setting('af_test.v')));
 select set_config('request.jwt.claim.sub','f20a0000-0000-4000-8000-000000000003',true);
 do $$declare f jsonb;begin
