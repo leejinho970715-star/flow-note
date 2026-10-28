@@ -150,6 +150,10 @@ export default function Workspace() {
   useEffect(() => {
     if (modal && !dialog.current?.open) dialog.current?.showModal();
   }, [modal]);
+  useEffect(() => {
+    // Opening another workspace section should start at its heading.
+    window.scrollTo(0, 0);
+  }, [view, demo]);
   async function run(action: string, payload: Record<string, unknown> = {}) {
     setBusy(true);
     setError("");
