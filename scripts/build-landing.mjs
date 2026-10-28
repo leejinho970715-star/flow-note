@@ -1,7 +1,7 @@
 import {mkdir,readFile,writeFile,copyFile} from 'node:fs/promises';
 import {base} from './site-config.mjs';
 const root=new URL('../marketing/',import.meta.url),out=new URL('../dist/',import.meta.url);
-const canonical='https://flow-note-psi.vercel.app/';
+const canonical=process.env.LANDING_CANONICAL_URL||'https://flow-note-psi.vercel.app/';
 const faqs=[
  ['Flownote 제품 도입과 맞춤 구축은 어떻게 다른가요?','Flownote는 고객 보고 업무를 위한 정해진 범위의 템플릿입니다. 맞춤 구축은 회사의 업무를 진단한 뒤 ERP·PMS·CRM 등 필요한 모듈과 연결 기능을 별도로 설계하는 서비스입니다.'],
  ['지금 체험판에서 무엇을 할 수 있나요?','공개 대시보드는 가상 자료 조회용입니다. CSV 체험에서는 브라우저로 파일을 검사·집계하고 고객별 HTML·CSV를 내려받을 수 있습니다. 실제 광고 수집·메일 발송·결제는 연결하지 않았습니다.'],

@@ -1,0 +1,1 @@
+export default {output:'export',trailingSlash:true,images:{unoptimized:true},basePath:process.env.AGENCY_BASE_PATH||'',turbopack:{root:new URL('../',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')},typescript:{ignoreBuildErrors:false}};

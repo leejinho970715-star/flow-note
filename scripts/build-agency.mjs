@@ -1,0 +1,15 @@
+import {spawnSync} from 'node:child_process';
+import {mkdir,cp,writeFile,readFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const workspace=fileURLToPath(new URL('../',import.meta.url));
+process.env.NEXT_TELEMETRY_DISABLED='1';
+process.env.NEXT_PUBLIC_AGENCY_URL ||= 'https://'+(process.env.VERCEL_PROJECT_PRODUCTION_URL||'agencyflow-studio.vercel.app');
+const result=spawnSync(process.execPath,[fileURLToPath(new URL('../node_modules/next/dist/bin/next',import.meta.url)),'build','agencyflow','--webpack'],{cwd:workspace,env:process.env,stdio:'inherit'});
+if(result.status!==0)process.exit(result.status||1);
+await mkdir(new URL('../dist/',import.meta.url),{recursive:true});
+await cp(new URL('../agencyflow/out/',import.meta.url),new URL('../dist/',import.meta.url),{recursive:true});
+const origin=new URL(process.env.NEXT_PUBLIC_AGENCY_URL).origin;
+await writeFile(new URL('../dist/robots.txt',import.meta.url),'User-agent: *\nAllow: /\nDisallow: /workspace/\nSitemap: '+origin+'/sitemap.xml\n');
+await writeFile(new URL('../dist/sitemap.xml',import.meta.url),'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>'+origin+'/</loc></url></urlset>');
+for(const file of ['og-agencyflow.png','favicon-32.png','apple-touch-icon.png'])await readFile(new URL('../dist/'+file,import.meta.url));
+console.log('AgencyFlow static Next.js application built. Auth and data use Supabase; billing is disabled.');

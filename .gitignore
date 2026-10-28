@@ -11,3 +11,8 @@ test-results/
 *.sqlite-*
 *.log
 demos/weekly-report/flownote-demo.html
+
+agencyflow/.next/
+agencyflow/out/
+agencyflow/next-env.d.ts
+*.tsbuildinfo

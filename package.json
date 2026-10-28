@@ -18,12 +18,23 @@
     "test:http": "node scripts/flownote-http-smoke.mjs",
     "flownote:backup": "node demos/weekly-report/workspace-backup.mjs backup",
     "flownote:restore": "node demos/weekly-report/workspace-backup.mjs restore",
-    "build:standalone": "node demos/weekly-report/build-standalone.mjs"
+    "build:standalone": "node demos/weekly-report/build-standalone.mjs",
+    "dev:agency": "next dev agencyflow --port 3005",
+    "build:agency": "node scripts/build-agency.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "2.118.0"
+    "@supabase/supabase-js": "2.118.0",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "esbuild": "0.28.2"
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2"
   }
 }

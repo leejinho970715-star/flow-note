@@ -1,0 +1,19 @@
+export type Stage='상담'|'견적'|'계약'|'디자인'|'개발'|'검수'|'완료'|'유지보수';
+export const stages:Stage[]=['상담','견적','계약','디자인','개발','검수','완료','유지보수'];
+export const plans={lite:{label:'Lite',price:9900,projects:5,seats:1,storage:'1GB'},pro:{label:'Pro',price:29000,projects:20,seats:3,storage:'10GB'},agency:{label:'Agency',price:99000,projects:100,seats:10,storage:'50GB'}};
+export type Client={id:string;org_id:string;name:string;contact:string;email:string;phone:string;business_number:string;memo:string;archived:boolean};
+export type Project={id:string;org_id:string;client_id:string;name:string;stage:Stage;owner_name:string;amount:number;starts_on:string;due_on:string;website_url:string;archived:boolean};
+export type Version={id:string;org_id:string;project_id:string;number:number;title:string;path:string;status:'review'|'approved';created_at:string;approved_by?:string;approved_at?:string;image_url?:string};
+export type Feedback={id:string;org_id:string;project_id:string;version_id:string;x:number;y:number;body:string;status:'대기'|'작업중'|'완료';created_at:string;created_by:string};
+export type Comment={id:string;org_id:string;project_id:string;feedback_id:string;body:string;created_at:string;created_by:string};
+export type QuoteLine={name:string;quantity:number;unitPrice:number};
+export type Quote={id:string;org_id:string;project_id:string;number:number;lines:QuoteLine[];subtotal:number;vat:number;total:number;status:'draft'|'sent'|'approved';created_at:string;approved_at?:string};
+export type Task={id:string;org_id:string;project_id:string;title:string;status:string;priority:string;due_on:string;owner_name:string};
+export type Org={id:string;name:string;role:string;trial_ends_at:string;plan:string;subscription_status:string};
+export type State={orgs:Org[];clients:Client[];projects:Project[];versions:Version[];feedbacks:Feedback[];comments:Comment[];quotes:Quote[];tasks:Task[];members:{org_id:string;user_id:string;role:string;name:string}[]};
+export const emptyState:State={orgs:[],clients:[],projects:[],versions:[],feedbacks:[],comments:[],quotes:[],tasks:[],members:[]};
+export function quoteTotal(lines:QuoteLine[]){if(!lines.length||lines.length>30)throw Error('견적 항목은 1~30개입니다.');const subtotal=lines.reduce((sum,l)=>{if(!l.name.trim()||!Number.isSafeInteger(l.quantity)||l.quantity<1||l.quantity>10000||!Number.isSafeInteger(l.unitPrice)||l.unitPrice<0||l.unitPrice>100000000)throw Error('수량과 단가를 확인하세요.');return sum+l.quantity*l.unitPrice;},0);if(subtotal>1000000000)throw Error('견적 공급가액은 10억 원 이하여야 합니다.');const vat=Math.round(subtotal*.1);return {subtotal,vat,total:subtotal+vat};}
+export function readOnly(org?:Org,now=Date.now()){return !org||!(org.subscription_status==='active'||org.subscription_status==='trialing'&&new Date(org.trial_ends_at).getTime()>now);}
+export function point(x:number,y:number){if(!Number.isFinite(x)||!Number.isFinite(y)||x<0||x>1||y<0||y>1)throw Error('시안 내부의 위치를 선택하세요.');return {x,y};}
+export const money=(value:number)=>new Intl.NumberFormat('ko-KR').format(value)+'원';
+export function estimateQuote(input:{pages:number;pageRate:number;mainRate:number;design:number;development:number;features:string[]}){if(!Number.isInteger(input.pages)||input.pages<1||input.pages>100||![1,1.3,1.6].includes(input.design)||![1,1.4,1.8].includes(input.development)||input.pageRate<0||input.mainRate<0)throw Error('페이지 수·단가·난이도를 확인하세요.');const lines:QuoteLine[]=[{name:'메인 시안 디자인',quantity:1,unitPrice:Math.round(input.mainRate*input.design)},{name:'반응형 페이지 구현 · 난이도 반영',quantity:input.pages,unitPrice:Math.round(input.pageRate*input.development)}];const rates:Record<string,number>={'관리자 페이지':500000,'게시판':250000,'예약 기능':600000,'결제 기능':700000,'다국어 기능':450000};for(const feature of input.features){if(!(feature in rates))throw Error('지원하지 않는 견적 기능입니다.');lines.push({name:feature+' · 범위 협의',quantity:1,unitPrice:rates[feature]});}quoteTotal(lines);return lines;}
