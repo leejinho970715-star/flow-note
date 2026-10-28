@@ -34,3 +34,7 @@ AgencyFlow 전용 바이올렛 말풍선 favicon(SVG/32px PNG/180px Apple), `pub
 서버 빌드 시 출력되는 설명·FAQ·가격 범위·독립 canonical·OG/Twitter·SoftwareApplication/WebSite JSON-LD·robots·sitemap을 제공합니다. 워크스페이스는 noindex이며 검색/AI 인용을 보장하지 않습니다. SEO를 위해 고객 자료·메일·견적을 공개하지 않습니다.
 
 브라우저 검증: 7개 메뉴×7개 너비(320/360/390/430/768/1024/1280px) 49개 조합에서 페이지 넘침·좁은 문단·14px 미만 글자 없음. 핀 등록→답글→처리 완료→고객 승인→재방문 유지, 승인된 v1 유지→실제 새 이미지 v2 업로드, 옵션 견적 계산→새 버전→고객 공개·승인, 고객 등록 모달 저장을 샘플 모드에서 확인했습니다. 실제 고객 간 HTTP 파일 전송·메일 인증·결제는 이 샘플 검증에 포함하지 않습니다.
+
+2026-10-28 CEO 승인 후 Supabase Redirect URLs에 `https://agencyflow-studio-dun.vercel.app/workspace/?mode=cloud`를 실제 저장했습니다. 기존 Flownote Site URL과 `/account.html` 반환 주소는 유지합니다. 일반 고객 메일 인증 왕복은 SMTP 준비 전까지 미검증입니다.
+
+공개 배포 최종 검사에서 높이720px 창의 사이드바 하단 버튼 접근 문제를 발견해 데스크톱 사이드바 자체 스크롤을 추가했습니다. 너비뿐 아니라 낮은 높이의 메뉴 조작도 확인합니다.

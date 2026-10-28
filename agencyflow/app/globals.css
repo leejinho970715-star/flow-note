@@ -432,6 +432,10 @@ dd {
   gap: 30px;
   border-right: 1px solid var(--border);
   min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  align-self: start;
 }
 .app-rail .af-brand {
   font-size: 23px;
@@ -1219,6 +1223,7 @@ th {
   .app-rail {
     position: static;
     height: auto;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--border);
     gap: 18px;
