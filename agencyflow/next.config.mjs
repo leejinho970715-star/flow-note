@@ -1,4 +1,5 @@
 export default {
+  devIndicators: false,
   output: "export",
   trailingSlash: true,
   images: { unoptimized: true },

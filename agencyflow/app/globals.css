@@ -1582,3 +1582,237 @@ th {
   height: 18px;
   min-width: 18px;
 }
+/* Studio modules share the accessible workspace shell, with distinct product accents. */
+.studio-search {
+  display: grid;
+  gap: 8px;
+  max-width: 100%;
+}
+.studio-search input {
+  width: min(330px, 100%);
+}
+.studio-contact-fields {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 10px 20px;
+  margin: 24px 0;
+}
+.studio-contact-fields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.studio-contact-fields dt {
+  color: var(--muted);
+}
+.studio-subtitle {
+  margin: 30px 0 16px;
+}
+.studio-selected {
+  background: var(--soft) !important;
+}
+.studio-workspace .mode-banner {
+  border-color: color-mix(in srgb, var(--accent) 25%, white);
+  background: var(--soft);
+  color: var(--ink);
+}
+.studio-workspace .actions {
+  margin-block: 20px;
+}
+.studio-workspace form label {
+  display: grid;
+  gap: 8px;
+}
+.studio-workspace form {
+  display: grid;
+  gap: 16px;
+}
+.studio-workspace {
+  --soft: color-mix(in srgb, var(--accent) 9%, var(--surface));
+}
+.studio-workspace .stat-card b {
+  font-size: clamp(22px, 2vw, 28px);
+  letter-spacing: -1px;
+}
+.studio-workspace .stat-card {
+  min-height: 170px;
+}
+.studio-workspace .af-brand img {
+  width: 32px;
+  height: 32px;
+}
+.studio-contact-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+  gap: 24px;
+}
+.studio-list-row {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+.studio-list-row h3,
+.studio-list-row p {
+  margin: 0;
+}
+.studio-stage-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+.studio-members {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.studio-members > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.studio-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 18px;
+}
+.studio-event {
+  padding: 24px;
+  background: var(--bg);
+  border-radius: 16px;
+  border-top: 3px solid var(--accent);
+}
+.studio-notice,
+.studio-approval {
+  margin-bottom: 20px;
+}
+.studio-notice p,
+.studio-approval p {
+  white-space: pre-wrap;
+}
+.studio-notice button {
+  display: block;
+  margin-top: 16px;
+}
+.studio-approval form {
+  margin-top: 20px;
+}
+.studio-workspace .inline-label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.studio-workspace .kanban-board {
+  grid-template-columns: repeat(6, minmax(240px, 1fr));
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 14px;
+}
+.studio-workspace .kanban-card label {
+  display: grid;
+  gap: 8px;
+}
+.studio-workspace .task-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.studio-public .hero-window img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.studio-public .public-hero {
+  align-items: center;
+}
+.studio-workspace button,
+.studio-workspace a,
+.studio-public a {
+  overflow-wrap: anywhere;
+}
+.studio-workspace .panel {
+  min-width: 0;
+}
+.studio-workspace .contact-list {
+  display: grid;
+  gap: 10px;
+}
+.studio-workspace .contact-list button {
+  text-align: left;
+  padding: 16px;
+}
+.studio-workspace .contact-list button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+.studio-workspace .contact-list b,
+.studio-workspace .contact-list small {
+  display: block;
+}
+.studio-workspace .contact-detail dl {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 12px;
+}
+.studio-workspace .contact-detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.studio-workspace .search-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.studio-public small {
+  display: block;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+@media (max-width: 760px) {
+  .studio-contact-layout,
+  .studio-workspace .task-columns {
+    grid-template-columns: 1fr;
+  }
+  .studio-workspace .inline-label {
+    flex-wrap: wrap;
+  }
+  .studio-workspace .app-topbar {
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .studio-workspace .contact-detail dl {
+    grid-template-columns: 1fr;
+  }
+  .studio-workspace .contact-detail dd {
+    margin-bottom: 12px;
+  }
+  .studio-workspace .search-field {
+    width: 100%;
+    display: grid;
+  }
+  .studio-workspace .section-heading {
+    flex-wrap: wrap;
+  }
+  .studio-workspace .section-heading > button {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .studio-workspace .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .studio-contact-fields {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .studio-contact-fields dd {
+    margin-bottom: 12px;
+  }
+}
