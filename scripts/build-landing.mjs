@@ -22,10 +22,10 @@ const schema={'@context':'https://schema.org','@graph':[
  {'@type':'Service','@id':canonical+'#custom',name:'맞춤 ERP·PMS·CRM 업무 시스템 구축',serviceType:'기업 맞춤 업무 시스템 구축',provider:{'@id':canonical+'#organization'},description:'업무 진단, 범위·완료 기준 합의, 구축·교육·인수, 유지관리·추가 확장. 필요한 모듈과 연결 범위를 확인해 개별 견적을 제안합니다.',url:canonical+'#solutions'}
 ]};
 await mkdir(new URL('marketing/',out),{recursive:true});
-for(const file of ['landing.css','landing.js','mark.svg'])await copyFile(new URL(file,root),new URL('marketing/'+file,out));
-for(const file of ['clay-workflow-640.jpg','clay-workflow-1200.jpg'])await copyFile(new URL('assets/'+file,root),new URL('marketing/'+file,out));
+for(const file of ['landing.css','landing.js','mark.svg','favicon.svg'])await copyFile(new URL(file,root),new URL('marketing/'+file,out));
+for(const file of ['clay-workflow-640.jpg','clay-workflow-1200.jpg','og-flownote.png','favicon-32.png','favicon.ico','apple-touch-icon.png'])await copyFile(new URL('assets/'+file,root),new URL('marketing/'+file,out));
 let html=await readFile(new URL('index.html',root),'utf8');
-html=html.replaceAll('__BASE__',base).replaceAll('__CANONICAL__',canonical).replaceAll('__IMAGE_URL__',canonical+'marketing/clay-workflow-1200.jpg').replaceAll('__ACCOUNT_URL__',base==='/'?'/account.html':canonical+'account.html')
+html=html.replaceAll('__BASE__',base).replaceAll('__CANONICAL__',canonical).replaceAll('__IMAGE_URL__',canonical+'marketing/og-flownote.png').replaceAll('__ACCOUNT_URL__',base==='/'?'/account.html':canonical+'account.html')
  .replace('__FAQ_HTML__',faqs.map(([question,answer])=>`<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('\n'))
  .replace('__SCHEMA__',JSON.stringify(schema).replaceAll('<','\\u003c'));
 await writeFile(new URL('index.html',out),html);

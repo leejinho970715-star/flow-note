@@ -16,6 +16,15 @@ assert((await read('app.js')).includes(`href="${base}workspace/"`));
 assert.equal((html.match(/<h1\b/g)||[]).length,1);
 assert(html.includes('https://flow-note-psi.vercel.app/'));
 assert(html.includes('https://t.me/evanlee97'));
+assert(html.includes('https://flow-note-psi.vercel.app/marketing/og-flownote.png'));
+assert(html.includes('property="og:image:height" content="630"'));
+for(const [file,width,height] of [['og-flownote.png',1200,630],['favicon-32.png',32,32],['apple-touch-icon.png',180,180]]){
+ const png=await readFile(new URL('marketing/'+file,root));
+ assert.equal(png.subarray(1,4).toString(),'PNG');
+ assert.equal(png.readUInt32BE(16),width,file+' width');assert.equal(png.readUInt32BE(20),height,file+' height');
+}
+assert(html.includes('marketing/favicon.svg')&&html.includes('marketing/favicon.ico'));
+
 assert(html.includes('19만 9천')&&html.includes('총 59만')&&html.includes('월 5만'));
 assert(html.includes('유지관리는 서버 이용권'));
 assert(html.includes('자동 전송·접수되지 않습니다.'));

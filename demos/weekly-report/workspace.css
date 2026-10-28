@@ -42,3 +42,7 @@ button:focus-visible,a.button:focus-visible{outline:3px solid #8aba9e;outline-of
 .guide-fab:hover:not(:disabled){background:#22573f;color:#fff}
 .stat:before{display:none}
 @media(max-width:680px){.rail{border:0}.workspace-bar{height:auto}.workspace-bar>div{flex-wrap:wrap}.workspace-bar .quiet{padding:8px 10px}.project-bottom{gap:10px}}
+/* Preserve readable line lengths and unbroken amounts on phone screens. */
+.page :where(h1,h2,h3,p,small,strong),.guide-dialog :where(p,li){overflow-wrap:anywhere}
+@media(max-width:680px){.workspace-bar .help-search-trigger{flex:0 1 auto;min-width:132px;white-space:nowrap}.workspace-bar .role-chip,.workspace-bar b{white-space:nowrap}.review-row>span:nth-child(2){flex-basis:calc(100% - 64px);min-width:0}.review-row>.badge{margin-left:0}.detail-top{flex-wrap:wrap;align-items:start}.mini-stats{grid-template-columns:minmax(0,1fr);gap:14px}.mini-stats>span{border-right:0;border-bottom:1px solid var(--line);padding-bottom:14px}.mini-stats b{white-space:nowrap}.onboarding-steps{grid-template-columns:minmax(0,1fr)}.onboarding-steps button{min-width:0}.project-bottom{flex-wrap:wrap}.guide-dialog form{flex-wrap:wrap}.guide-dialog input{min-width:0}.guide-dialog form button{flex-shrink:0}.page :where(input,select,textarea){min-width:0;max-width:100%}}
+@media(max-width:680px){.table-scroll:before{content:'표를 좌우로 밀어 전체 내용을 확인하세요.';display:block;position:sticky;left:0;width:100%;font-size:14px;line-height:1.8;color:#526f47;padding:8px 0;white-space:normal}}
