@@ -1422,3 +1422,74 @@ a:focus-visible {
     opacity: 1 !important;
   }
 }
+/* Mobile mockups lead each feature instead of following a long text block. */
+@media (max-width: 700px) {
+  .feature-visual,
+  .reverse .feature-visual {
+    order: 0;
+    display: flex;
+    padding: 26px 18px 24px;
+    min-height: 210px;
+  }
+  .feature-copy,
+  .reverse .feature-copy {
+    order: 1;
+  }
+  .feature-visual .browser {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    flex-shrink: 0;
+  }
+  .feature-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+  .hero-stage .laptop {
+    display: block;
+  }
+  .header .brand {
+    font-size: 18px;
+    letter-spacing: -0.6px;
+  }
+  .header .brand span {
+    display: block;
+    font-size: 14px;
+  }
+  .header .brand img {
+    width: 28px;
+    height: 28px;
+  }
+  .header {
+    flex-wrap: wrap;
+  }
+  .header nav {
+    margin-left: auto;
+  }
+  .feature-copy .actions {
+    width: 100%;
+  }
+  .feature-copy .actions .btn {
+    width: 100%;
+    gap: 8px;
+  }
+  .feature-visual .visual-note {
+    margin-top: 12px;
+  }
+  .brand span {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 360px) {
+  .header .brand span {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .header .brand span {
+    display: none;
+  }
+}

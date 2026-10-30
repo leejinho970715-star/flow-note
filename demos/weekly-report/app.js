@@ -31,7 +31,7 @@ function render() {
   <div class="panel trace-panel"><div><span class="overline">TRACEABLE BY DESIGN</span><h3>결과를 믿기 전에, 원본과 대조합니다.</h3></div>${data?`<div class="trace-numbers"><span><b>${data.sourceRows}</b>원본 행</span><i>→</i><span><b>${data.records.length}</b>집계 가능</span><span class="amber"><b>${data.issues.length}</b>검수 제외</span></div>`:'<p>검증되지 않은 행을 정상 처리로 표시하지 않습니다.</p>'}<p class="trace-foot">${data?`${fmt(elapsed,1)}ms 브라우저 파일 검사 · `:''}행 수 대조는 파일 내부 기준입니다. 광고 플랫폼에서 빠진 자료까지 검증한 것은 아닙니다.</p></div>
   </section></div>
   <section class="panel roi-panel"><div class="roi-title"><span class="overline">IS THIS WORTH PAYING FOR?</span><h2>우리 업무에도 비용이 맞을까요?</h2><p>실측값으로 바꿔 판단하세요. 아래 기본값은 계산 예시이며 절감 효과를 측정한 결과가 아닙니다.</p></div><div class="roi-layout"><div class="roi-inputs">${[['before','현재 월 작업시간','20','시간'],['after','도입 후 월 작업시간','5','시간'],['hourly','내부 시간당 비용','20000','원'],['setup','구축 견적 가정','900000','원'],['support','월 관리비 가정','0','원'],['tools','월 추가 도구비 가정','0','원']].map(([id,label,value,unit])=>`<label>${label}<span><input data-roi="${id}" type="number" min="0" max="1000000000" step="any" value="${e(roi[id])}"><small>${unit}</small></span></label>`).join('')}</div><div id="roi-result" aria-live="polite"></div></div><p class="roi-foot">절약한 시간의 가치와 실제 현금 인건비 절감은 다릅니다. 업로드·검수·예외 처리·교육 시간도 포함하세요. 관리비는 필요할 때 선택합니다.</p></section>
-  <footer>FLOWNOTE / AI UNIVERSE <span>샘플은 가상 데이터입니다. 유료 고객 수요·납품 역량·운영 안정성은 별도 검증 대상입니다.</span></footer></main>`;
+  <footer>FLOWNOTE / ENOTE-LABS <span>샘플은 가상 데이터입니다. 유료 고객 수요·납품 역량·운영 안정성은 별도 검증 대상입니다.</span></footer></main>`;
   updateROI();
 }
 function reportView() {

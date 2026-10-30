@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 const origin =
-  process.env.NEXT_PUBLIC_AGENCY_URL || "https://agencyflow-studio-dun.vercel.app";
+  process.env.NEXT_PUBLIC_AGENCY_URL ||
+  "https://agencyflow-studio-dun.vercel.app";
 export const metadata: Metadata = {
+  creator: "ENOTE-LABS",
+  publisher: "ENOTE-LABS",
   metadataBase: new URL(origin),
   title: {
     default: "AgencyFlow — 웹에이전시·디자인 스튜디오의 시안 피드백",

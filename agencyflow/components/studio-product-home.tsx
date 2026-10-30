@@ -71,7 +71,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
           {p.name}
         </a>
         <nav>
-          <a href={studioOrigin + "/"}>Flownote Studio</a>
+          <a href={studioOrigin + "/"}>ENOTE-LABS</a>
           <a
             className="button primary"
             href={studioOrigin + "/" + kind + "/workspace/"}
@@ -103,6 +103,14 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
                 회사 계정으로 시작
               </a>
             </div>
+            <a
+              className="button"
+              href={"/manuals/" + kind + "-guide.pdf"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              제품소개서 보기 ↗
+            </a>
             <small>
               초기 검증판입니다. 샘플은 이 브라우저에만 저장되며 회사 모드는
               검증된 계정과 내부 팀 권한이 필요합니다.
@@ -161,7 +169,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
         </section>
       </main>
       <footer className="public-footer">
-        <b>{p.name} by Flownote Studio</b>
+        <b>{p.name} by ENOTE-LABS</b>
         <a href={studioOrigin + "/"}>네 가지 제품 살펴보기</a>
       </footer>
       <script

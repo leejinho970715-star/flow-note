@@ -3,7 +3,7 @@ export const productInfo = {
   follonote: {
     name: "Follonote",
     ko: "팔로노트",
-    color: "#137d71",
+    color: "#226754",
     tag: "SALES CRM",
     title: "다음 연락까지, 놓치지 않는 영업.",
     description: "고객 정보·영업기회·연락 일정·상담 기록을 연결하는 영업 CRM",
@@ -11,7 +11,7 @@ export const productInfo = {
   crewmemo: {
     name: "Crewmemo",
     ko: "크루메모",
-    color: "#3864d9",
+    color: "#226754",
     tag: "TEAM GROUPWARE",
     title: "오늘의 팀 업무를, 한곳에.",
     description: "공지·팀 일정·결재·담당 업무를 모으는 작은 팀의 그룹웨어",

@@ -10,7 +10,7 @@ const source=new URL('../demos/weekly-report/',import.meta.url),output=new URL('
 import {base,origin} from './site-config.mjs';
 const read=name=>readFile(new URL(name,source),'utf8');
 await Promise.all(['','assets/','fixtures/','downloads/','workspace/'].map(name=>mkdir(new URL(name,output),{recursive:true})));
-for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
+for(const file of ['core.js','help.js','style.css','workspace.css','assets/brandmark.png','assets/flownote-logo.svg','assets/favicon-32.png','assets/favicon.ico','assets/apple-touch-icon.png','assets/og-image.jpg','assets/PretendardVariable.woff2','assets/Pretendard-LICENSE.txt','fixtures/sample.csv'])await copyFile(new URL(file,source),new URL(file,output));
 await copyFile(new URL('account.css',source),new URL('account.css',output));
 await writeFile(new URL('account.html',output),(await read('account.html')).replace('<a class="button outline" href="./">체험판으로 돌아가기</a>','<a class="button outline" href="https://flownote-studio.vercel.app/">서비스 소개로 돌아가기</a>').replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
 const publicConfig=JSON.parse(await readFile(new URL('../supabase/public-config.json',import.meta.url),'utf8'));

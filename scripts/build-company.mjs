@@ -44,7 +44,13 @@ await build({
   format: "esm",
   target: "es2020",
 });
-for (const dir of ["follonote", "crewmemo", "_next", "product-assets"])
+for (const dir of [
+  "follonote",
+  "crewmemo",
+  "_next",
+  "product-assets",
+  "manuals",
+])
   await cp(
     new URL("agencyflow/out/" + dir + "/", root),
     new URL(dir + "/", dist),

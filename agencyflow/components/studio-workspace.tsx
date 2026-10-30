@@ -379,7 +379,14 @@ export default function StudioWorkspace({ kind }: { kind: ProductKind }) {
           ))}
         </nav>
         <div className="rail-bottom">
-          <a href="https://flownote-studio.vercel.app/">← Flownote Studio</a>
+          <a
+            href={"/manuals/" + kind + "-guide.pdf"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            제품소개서 보기 ↗
+          </a>
+          <a href="https://flownote-studio.vercel.app/">← ENOTE-LABS</a>
           <button onClick={() => setDark(!dark)}>
             {dark ? "☀ 라이트 모드" : "◐ 다크 모드"}
           </button>

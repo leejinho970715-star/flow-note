@@ -1,5 +1,6 @@
 const origin =
-  process.env.NEXT_PUBLIC_AGENCY_URL || "https://agencyflow-studio-dun.vercel.app";
+  process.env.NEXT_PUBLIC_AGENCY_URL ||
+  "https://agencyflow-studio-dun.vercel.app";
 export default function Home() {
   return (
     <>
@@ -17,6 +18,14 @@ export default function Home() {
         </nav>
       </header>
       <main className="public-main">
+        <a
+          className="button"
+          href="/manuals/agencyflow-guide.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          제품소개서 보기 ↗
+        </a>
         <section className="public-hero">
           <div>
             <span className="eyebrow">FOR CREATIVE TEAMS</span>

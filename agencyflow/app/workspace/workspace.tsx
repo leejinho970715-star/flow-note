@@ -99,7 +99,10 @@ export default function Workspace() {
   const feedbacks = state.feedbacks.filter((f) => f.version_id === version?.id);
   const activeFeedback = feedbacks.find((f) => f.id === selectedPin);
   const quotes = state.quotes
-    .filter((q) => q.project_id === project?.id && (!clientView || q.status !== 'draft'))
+    .filter(
+      (q) =>
+        q.project_id === project?.id && (!clientView || q.status !== "draft"),
+    )
     .sort((a, b) => b.number - a.number);
   const quote = quotes.find((q) => q.id === quoteId) || quotes[0];
   const refresh = useCallback(async () => {
@@ -403,6 +406,13 @@ export default function Workspace() {
             ))}
         </nav>
         <div className="rail-bottom">
+          <a
+            href="/manuals/agencyflow-guide.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            제품소개서 보기 ↗
+          </a>
           <a href="/">← 서비스 소개</a>
           <button onClick={() => setDark(!dark)}>
             {dark ? "☀ 라이트 모드" : "◐ 다크 모드"}

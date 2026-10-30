@@ -16,3 +16,5 @@ agencyflow/.next/
 agencyflow/out/
 agencyflow/next-env.d.ts
 *.tsbuildinfo
+tmp/pdfs/
+output/pdf/

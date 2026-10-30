@@ -3,6 +3,14 @@ import { readFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url),
   read = (p) => readFile(new URL(p, root), "utf8");
 const html = await read("dist/index.html");
+assert(html.includes("ENOTE-LABS") && !html.includes("Flownote Studio"));
+for (const kind of ["flownote", "agencyflow", "follonote", "crewmemo"]) {
+  assert(html.includes("/manuals/" + kind + "-guide.pdf"));
+  const pdf = await readFile(
+    new URL("dist/manuals/" + kind + "-guide.pdf", root),
+  );
+  assert.equal(pdf.toString("ascii", 0, 5), "%PDF-");
+}
 for (const name of ["Flownote", "AgencyFlow", "Follonote", "Crewmemo"])
   assert(html.includes(name));
 assert(html.includes("https://flownote-studio.vercel.app/"));
