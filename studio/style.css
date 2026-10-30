@@ -147,7 +147,7 @@ a:focus-visible {
   outline-offset: 5px;
 }
 .btn.orange {
-  background: #f57832;
+  background: #c4541b;
   color: #fff;
   box-shadow: 0 5px 16px #ec783229;
 }
@@ -188,9 +188,21 @@ a:focus-visible {
   letter-spacing: 1px;
 }
 .hero {
+  position: relative;
   text-align: center;
   padding-top: 74px;
   isolation: isolate;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -20px -24px 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 25%, #ffb87830, transparent 46%),
+    radial-gradient(ellipse at 84% 39%, #ffb36d36, transparent 43%),
+    radial-gradient(ellipse at 50% 76%, #ffd4ad55, transparent 58%);
 }
 .hero-copy p {
   font-size: 20px;
@@ -222,14 +234,14 @@ a:focus-visible {
 .hero-stage .peach {
   width: 65%;
   height: 65%;
-  background: #ffc4ab9c;
+  background: #ffbd8a9c;
   bottom: 0;
   left: -3%;
 }
 .hero-stage .yellow {
   width: 55%;
   height: 65%;
-  background: #ffdc9d80;
+  background: #ffd0a180;
   bottom: -2%;
   right: -2%;
 }
@@ -1871,7 +1883,4 @@ a:focus-visible {
 }
 .mac-toolbar {
   color: #705c4c;
-}
-.btn.orange {
-  color: #3b210f;
 }
