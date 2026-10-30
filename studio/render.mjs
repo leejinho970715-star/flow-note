@@ -5,8 +5,8 @@ export const products = [
     name: "Flownote",
     ko: "플로노트",
     tag: "보고 · 프로젝트 운영",
-    color: "#276854",
-    bg: "#e7f1ea",
+    color: "#c65a22",
+    bg: "#fff0e2",
     title: "아침마다 모으던 자료,<br>보고할 내용만 남기세요.",
     desc: "고객과 프로젝트의 진행 상황을 정리하고, 보고할 내용을 한곳에서 확인하세요. 작은 대행사의 반복 보고 업무부터 시작합니다.",
     items: [
@@ -26,8 +26,8 @@ export const products = [
     name: "AgencyFlow",
     ko: "에이전시플로우",
     tag: "고객 피드백 · 시안 검수",
-    color: "#226754",
-    bg: "#e7f1ea",
+    color: "#c65a22",
+    bg: "#fff0e2",
     title: "“여기 수정해주세요.”<br>말 대신 위치로 전하세요.",
     desc: "웹에이전시와 디자인 스튜디오를 위한 검수 공간. 시안 위에 핀을 남기면 수정 요청, 대화, 처리 상태와 승인이 이어집니다.",
     items: [
@@ -47,8 +47,8 @@ export const products = [
     name: "Follonote",
     ko: "팔로노트",
     tag: "영업 · 고객 관리",
-    color: "#226754",
-    bg: "#e7f1ea",
+    color: "#c65a22",
+    bg: "#fff0e2",
     title: "좋은 상담이,<br>다음 연락으로 이어지게.",
     desc: "영업 담당자가 바뀌어도 고객의 맥락이 남도록. 상담 기록과 진행 단계, 다음 연락 날짜를 연결하는 간결한 영업 CRM입니다.",
     items: [
@@ -68,8 +68,8 @@ export const products = [
     name: "Crewmemo",
     ko: "크루메모",
     tag: "그룹웨어 · 팀 협업",
-    color: "#226754",
-    bg: "#e7f1ea",
+    color: "#c65a22",
+    bg: "#fff0e2",
     title: "흩어진 팀 소식,<br>함께 움직이는 하루로.",
     desc: "메신저 위로 밀려난 공지와 구두로 끝난 결정을 기록으로 남기세요. 공지, 팀 일정, 내부 결재와 담당 업무를 모았습니다.",
     items: [
@@ -88,9 +88,10 @@ export const products = [
 const btn = (label, url, cls = "dark") =>
   `<a class="btn ${cls}" href="${url}" ${url.endsWith(".pdf") ? 'target="_blank" rel="noopener noreferrer"' : ""}>${label}</a>`;
 const browser = (p) =>
-  `<div class="browser mock-motion"><div class="screen-bar"><i></i><i></i><i></i><span>${p.name} / ${p.tag}</span></div><img src="/assets/${p.id}-screen.jpg" alt="${p.ko} 실제 가상 샘플 업무 화면" width="1280" height="720" loading="lazy"></div>`;
+  `<div class="browser mac-browser mock-motion"><div class="mac-toolbar"><div class="mac-controls" aria-hidden="true"><i></i><i></i><i></i></div><div class="mac-address"><span aria-hidden="true">⌑</span>${p.name} · 실제 제품 화면</div><span class="mac-menu" aria-hidden="true">⋯</span></div><img src="/assets/${p.id}-screen.jpg" alt="${p.ko} 실제 제품의 가상 샘플 화면 캡처" width="1280" height="720" loading="lazy"></div>`;
 const heading = (tag, title, desc = "") =>
-  `<div class="section-title reveal"><span class="eyebrow">${tag}</span><h2>${title}</h2>${desc ? `<p>${desc}</p>` : ""}</div>`;
+  `<div class="section-title reveal"><span class="eyebrow">${tag}</span><h2>${title.replaceAll("<em>", "<em data-typewriter>")}</h2>${desc ? `<p>${desc}</p>` : ""}</div>`;
+const productShowcase = `<section class="section wrap product-section" id="products">${heading("FIND YOUR WORKFLOW", "우리 팀에 맞는 제품,<br><em>탭으로 살펴보세요.</em>", "보고부터 고객 피드백, 영업과 팀 협업까지.<br>실제 제품의 가상 샘플 화면으로 확인하세요.")}<div class="product-tabs" role="tablist" aria-label="제품 종류" aria-orientation="horizontal">${products.map((p, i) => `<button type="button" role="tab" id="tab-${p.id}" aria-controls="${p.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-product="${p.id}"><span class="tab-symbol" aria-hidden="true">${p.icon}</span><span><b>${p.name}</b><small>${p.tag}</small></span></button>`).join("")}</div><div class="product-panels">${products.map((p, i) => `<article class="feature-card product-panel" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}" tabindex="0" data-product-panel><div class="feature-copy"><span class="product-label">0${i + 1} / ${p.name.toUpperCase()}${i > 1 ? " · " + p.ko : ""}</span><h2>${p.title}</h2><p>${p.desc}</p><ul>${p.items.map((s) => `<li>${s}</li>`).join("")}</ul><div class="actions">${btn(p.ko + " 직접 살펴보기 ↗", p.url)}${btn("제품소개서 보기 ↗", "/manuals/" + p.id + "-guide.pdf", "white")}</div><small>${p.note}</small></div><div class="feature-visual">${browser(p)}<div class="visual-note"><span aria-hidden="true">${p.icon}</span><div><b>${p.chip}</b><p>${p.sub}</p></div></div><a class="screen-original" href="/assets/${p.id}-screen.jpg" target="_blank" rel="noopener noreferrer">실제 캡처 크게 보기 ↗</a></div></article>`).join("")}</div><p class="caption">실제 제품을 캡처한 가상 자료 화면입니다. 제품 화면의 고유 색상은 유지했습니다.<br>제품별 기능과 제공 범위는 소개서에서 확인하세요.</p><p class="sr-only" id="product-tab-status" aria-live="polite"></p></section>`;
 const faq = [
   [
     "어떤 회사에 잘 맞나요?",
@@ -146,9 +147,8 @@ const schema = {
   ],
 };
 export const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ENOTE-LABS(이노트랩스) — 우리 회사에 맞는 업무 시스템</title><meta name="description" content="보고 자동화 Flownote, 시안 피드백 AgencyFlow, 영업 CRM 팔로노트, 그룹웨어 크루메모. 엑셀과 메신저에 흩어진 업무를 회사 방식에 맞는 시스템으로 연결합니다."><link rel="canonical" href="${origin}/"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="ENOTE-LABS"><meta property="og:title" content="흩어진 일을 모아, 일이 흐르게."><meta property="og:description" content="보고·고객 피드백·영업·팀 업무. 필요한 제품으로 시작하고, 회사에 맞춰 확장하세요."><meta property="og:url" content="${origin}/"><meta property="og:image" content="${origin}/assets/og-studio.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ENOTE-LABS — 우리 회사에 맞는 업무 시스템"><meta name="twitter:image" content="${origin}/assets/og-studio.png"><meta name="theme-color" content="#f57832"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/style.css"><script type="module" src="/main.js"></script><script type="application/ld+json">${JSON.stringify(schema).replaceAll("<", "\\u003c")}</script></head><body><a class="skip" href="#main">본문 바로가기</a><header class="header"><a class="brand" href="/" aria-label="ENOTE-LABS 홈"><img src="/assets/favicon.svg" alt="" width="32" height="32">ENOTE-LABS<span>이노트랩스</span></a><nav aria-label="주 메뉴"><a href="#products">제품</a><a href="#custom">맞춤 구축</a><a href="#pricing">도입 비용</a>${btn("업무 상담 ↗", "#contact", "small dark")}</nav></header><main id="main">
-<section class="hero wrap"><div class="hero-copy reveal"><span class="eyebrow pill">LESS BUSYWORK. MORE FLOW.</span><h1>흩어진 일을 모아,<br><em>일이 흐르게.</em></h1><p>엑셀과 메신저에 흩어진 업무를<br class="desktop"> 회사 방식에 맞는 시스템으로 연결해 드립니다.</p><div class="actions">${btn("우리 팀에 맞는 제품 찾기 ↗", "#products", "orange")}${btn("맞춤 구축 상담", "#contact", "white")}</div><small>작은 업무 하나부터. 직접 체험하고 결정하세요.</small></div><div class="hero-stage"><div class="glow peach"></div><div class="glow yellow"></div><div class="floating-chip chip-left"><span class="chip-icon">▤</span><div><b>보고 준비는 가볍게</b><span>모으고, 확인하고, 공유하세요.</span></div></div><div class="laptop mock-motion"><div class="laptop-display"><div class="screen-bar"><i></i><i></i><i></i><span>Flownote · 실제 샘플 화면</span></div><img src="/assets/flownote-screen.jpg" alt="Flownote 보고서와 프로젝트 현황을 확인하는 실제 샘플 대시보드" width="1280" height="720" fetchpriority="high"></div><div class="laptop-base"></div></div><div class="floating-chip chip-right"><span class="check">✓</span><div><b>다음 할 일이 명확하게</b><span>기록에서 실행까지, 한 화면에.</span></div></div></div><div class="hero-foot"><span>보고 자동화</span><span>시안 피드백</span><span>영업 CRM</span><span>팀 그룹웨어</span><span>맞춤 ERP · PMS</span></div></section>
-<section class="section intro wrap" id="products">${heading("FOUR PRODUCTS, ENOTE-LABS", "팀에 필요한 일부터,<br><em>하나씩 바꿔보세요.</em>", "모든 기능을 한 번에 도입할 필요는 없습니다.<br>지금 가장 자주 반복되는 일부터 시작하세요.")}<div class="product-grid">${products.map((p) => `<a class="product-tile reveal" href="#${p.id}" style="--tile:${p.bg};--accent:${p.color}"><div class="tile-art"><span class="clay-icon">${p.icon}</span></div><span>${p.tag}</span><h3>${p.name}${["follonote", "crewmemo"].includes(p.id) ? `<small>${p.ko}</small>` : ""}</h3><p>${p.tile}</p><b>자세히 보기 ↗</b></a>`).join("")}</div><p class="caption">각 제품은 독립된 서비스입니다. 제품 간 자동 데이터 연동은 별도 구축 범위입니다.</p></section>
-<section class="section features wrap">${heading("SEE HOW IT WORKS", "설명보다 명확한,<br>실제 업무 화면.", "아래 화면은 가상 자료를 넣은 실제 제품의 체험 화면입니다.")}${products.map((p, i) => `${i === 2 ? `<div class="interlude reveal"><span class="eyebrow">FROM CLIENT WORK TO TEAMWORK</span><h2>고객과 하는 일도,<br>우리 팀 안의 일도.</h2><p>작은 팀의 하루에 꼭 필요한 두 가지 제품을 더했습니다.</p><div class="mini-scenes"><div class="mini-scene"><span>FOLLONOTE / NEXT ACTION</span><b>다음 미팅 일정 확인</b><p>고객 · 상담 내용 · 연락 예정일</p><div><i>신규</i><i>상담</i><i class="selected">제안</i><i>수주</i></div></div><div class="mini-scene"><span>CREWMEMO / TODAY</span><b>함께 알고, 함께 결정하기</b><p>공지 · 일정 · 결재 · 팀 업무</p><div><i>공지 확인</i><i class="selected">결재 요청</i><i>업무 완료</i></div></div></div></div>` : ""}<article class="feature-card ${i % 2 ? "reverse" : ""} reveal" id="${p.id}" style="--accent:${p.color};--tile:${p.bg}"><div class="feature-copy"><span class="product-label">0${i + 1} / ${p.name.toUpperCase()}${i > 1 ? " · " + p.ko : ""}</span><h2>${p.title}</h2><p>${p.desc}</p><ul>${p.items.map((s) => `<li>${s}</li>`).join("")}</ul><div class="actions">${btn(p.ko + " 직접 살펴보기 ↗", p.url)}${btn("제품소개서 보기 ↗", "/manuals/" + p.id + "-guide.pdf", "white")}</div><small>${p.note}</small></div><div class="feature-visual">${browser(p)}<div class="visual-note"><span>${p.icon}</span><div><b>${p.chip}</b><p>${p.sub}</p></div></div></div></article>`).join("")}</section>
+<section class="hero wrap"><div class="hero-copy reveal"><span class="eyebrow pill">LESS BUSYWORK. MORE FLOW.</span><h1>흩어진 일을 모아,<br><em data-typewriter>일이 흐르게.</em></h1><p>엑셀과 메신저에 흩어진 업무를<br class="desktop"> 회사 방식에 맞는 시스템으로 연결해 드립니다.</p><div class="actions">${btn("우리 팀에 맞는 제품 찾기 ↗", "#products", "orange")}${btn("맞춤 구축 상담", "#contact", "white")}</div><small>작은 업무 하나부터. 직접 체험하고 결정하세요.</small></div><div class="hero-stage"><div class="glow peach"></div><div class="glow yellow"></div><div class="floating-chip chip-left"><span class="chip-icon">▤</span><div><b>보고 준비는 가볍게</b><span>모으고, 확인하고, 공유하세요.</span></div></div><div class="laptop mock-motion"><div class="laptop-display"><div class="mac-toolbar"><div class="mac-controls" aria-hidden="true"><i></i><i></i><i></i></div><div class="mac-address">Flownote · 실제 제품 화면</div><span class="mac-menu" aria-hidden="true">⋯</span></div><img src="/assets/flownote-screen.jpg" alt="Flownote 보고서와 프로젝트 현황을 확인하는 실제 샘플 대시보드" width="1280" height="720" fetchpriority="high"></div><div class="laptop-base"></div></div><div class="floating-chip chip-right"><span class="check">✓</span><div><b>다음 할 일이 명확하게</b><span>기록에서 실행까지, 한 화면에.</span></div></div></div><div class="hero-foot"><span>보고 자동화</span><span>시안 피드백</span><span>영업 CRM</span><span>팀 그룹웨어</span><span>맞춤 ERP · PMS</span></div></section>
+${productShowcase}
 <section class="section custom-section" id="custom"><div class="wrap custom-grid"><div class="reveal"><span class="eyebrow">BUILT AROUND YOUR BUSINESS</span><h2>프로그램에 회사를 맞추지 말고,<br><em>회사에 맞게 만드세요.</em></h2><p>대행사는 자료 취합과 보고를,<br>제작사는 수정 요청과 납품을,<br>컨설팅사는 계약부터 결과물 승인을.</p><p>실제로 쓰는 엑셀과 업무 과정을 보고,<br>가장 먼저 줄일 반복 업무 하나를 정합니다.</p>${btn("우리 업무로 상담하기 ↗", "#contact", "orange")}</div><ol class="steps reveal">${[
   ["업무 진단", "현재 엑셀·처리 과정·반복 작업을 확인합니다."],
   ["작은 범위 견적", "우선 해결할 업무 하나와 완료 기준을 합의합니다."],

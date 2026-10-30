@@ -4,6 +4,16 @@ const root = new URL("../", import.meta.url),
   read = (p) => readFile(new URL(p, root), "utf8");
 const html = await read("dist/index.html");
 assert(html.includes("ENOTE-LABS") && !html.includes("Flownote Studio"));
+assert.equal((html.match(/role="tab"/g) || []).length, 4);
+assert.equal((html.match(/role="tabpanel"/g) || []).length, 4);
+assert.equal((html.match(/class="mac-toolbar"/g) || []).length, 5);
+const landingCss = await read("studio/style.css");
+assert(
+  !/#(?:226754|276854|137d71|3864d9|e7f1ea)\b/i.test(landingCss),
+  "Landing must use the orange palette",
+);
+const captures = JSON.parse(await read("studio/assets/capture-manifest.json"));
+assert.equal(captures.screens.length, 4);
 for (const kind of ["flownote", "agencyflow", "follonote", "crewmemo"]) {
   assert(html.includes("/manuals/" + kind + "-guide.pdf"));
   const pdf = await readFile(

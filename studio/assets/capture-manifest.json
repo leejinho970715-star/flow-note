@@ -1,0 +1,11 @@
+{
+  "capturedOn": "2026-10-31",
+  "timezone": "Asia/Seoul",
+  "content": "Actual deployed product UI with fictional sample records. Original product colors are preserved; no synthetic dashboard redraw or screenshot recoloring.",
+  "screens": [
+    {"file":"flownote-screen.jpg","source":"https://flow-note-psi.vercel.app/workspace/","view":"전체 업무"},
+    {"file":"agencyflow-screen.jpg","source":"https://agencyflow-studio-dun.vercel.app/workspace/","view":"시안 피드백 · 핀 1 선택 · 기존 다크 테마"},
+    {"file":"follonote-screen.jpg","source":"https://flownote-studio.vercel.app/follonote/workspace/?view=deals","view":"영업 파이프라인"},
+    {"file":"crewmemo-screen.jpg","source":"https://flownote-studio.vercel.app/crewmemo/workspace/?view=approvals","view":"내부 결재 · 샘플 결재자 이유진"}
+  ]
+}

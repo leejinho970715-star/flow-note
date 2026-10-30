@@ -587,7 +587,7 @@ a:focus-visible {
   border-radius: 24px;
   box-shadow: 0 15px 40px #3721120b;
   background: #fff;
-  border: 1px solid #e5e9e6;
+  border: 1px solid #f0ddd0;
   transform: rotate(-3deg);
 }
 .mini-scene:last-child {
@@ -599,10 +599,10 @@ a:focus-visible {
   font-weight: 650;
   letter-spacing: 1px;
   margin-bottom: 18px;
-  color: #137d71;
+  color: #ba511d;
 }
 .mini-scene:last-child > span {
-  color: #3864d9;
+  color: #a34b24;
 }
 .mini-scene b {
   font-size: 22px;
@@ -621,18 +621,18 @@ a:focus-visible {
 }
 .mini-scene i {
   font-style: normal;
-  background: #f4f6f6;
+  background: #fff6ef;
   padding: 7px 12px;
   border-radius: 8px;
   font-size: 14px;
 }
 .mini-scene i.selected {
-  background: #e4f2ed;
-  color: #137d71;
+  background: #fff0df;
+  color: #ba511d;
 }
 .mini-scene:last-child i.selected {
-  background: #e8edfc;
-  color: #3864d9;
+  background: #ffead8;
+  color: #a34b24;
 }
 .custom-section {
   background: linear-gradient(145deg, #fff1e5, #fff8f1 70%);
@@ -1492,4 +1492,386 @@ a:focus-visible {
   .header .brand span {
     display: none;
   }
+}
+/* Orange-only marketing palette. Product screenshots retain their original UI colors. */
+:root {
+  --landing-accent: #c75b20;
+  --landing-soft: #fff0e2;
+  --landing-line: #efd9c9;
+}
+.product-section {
+  padding-bottom: 36px;
+}
+.product-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  background: #fff3e9;
+  border: 1px solid #f0d8c4;
+  padding: 9px;
+  border-radius: 20px;
+  margin: 0 0 26px;
+  scroll-margin-top: 96px;
+}
+.product-tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 84px;
+  padding: 15px 12px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  color: #80644e;
+  text-align: left;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.product-tabs button[aria-selected="true"] {
+  background: #fff;
+  color: #a34819;
+  border-color: #edb58c;
+  box-shadow: 0 5px 16px #b8601712;
+}
+.product-tabs button:hover {
+  background: #fffaf6;
+  border-color: #efc8a9;
+}
+.product-tabs b {
+  display: block;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.product-tabs small {
+  display: block;
+  font-size: 14px;
+  color: #92745e;
+  margin-top: 2px;
+}
+.tab-symbol {
+  display: grid;
+  place-items: center;
+  background: #ffead8;
+  color: #ba511d;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  font-size: 23px;
+}
+.product-tabs button[aria-selected="true"] .tab-symbol {
+  background: #f5833b;
+  color: #3b210f;
+}
+.product-tabs button:focus-visible {
+  outline: 3px solid #c75b20;
+  outline-offset: 3px;
+}
+.product-panel {
+  --accent: #bb511c;
+  --tile: #fff0e2;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+  min-height: 580px;
+  margin-bottom: 0;
+}
+.product-panel[hidden] {
+  display: none !important;
+}
+.product-panel .feature-copy {
+  padding: 40px 30px;
+}
+.product-panel .feature-copy h2 {
+  font-size: 30px;
+}
+.product-panel .feature-visual {
+  padding: 32px 24px;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    #ffe0c3 0%,
+    #fff1e4 60%,
+    #fff9f4 100%
+  );
+  order: 1;
+}
+.product-panel .feature-copy {
+  order: 0;
+}
+.product-panel .browser {
+  width: 100%;
+  max-width: 100%;
+  transform: none;
+  align-self: center;
+}
+.product-panel .visual-note {
+  margin-top: 18px;
+  align-self: stretch;
+  border-color: #f3decb;
+}
+.product-panel .visual-note > span {
+  background: #fff0df;
+  color: #ba511d;
+}
+.product-panel .feature-copy .actions {
+  width: 100%;
+}
+.product-panel .feature-copy .actions .btn {
+  width: 100%;
+  padding: 13px 15px;
+  gap: 12px;
+}
+.product-panel .browser img {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+.screen-original {
+  font-size: 14px;
+  align-self: center;
+  padding: 8px 12px;
+  border: 1px solid #eac3a3;
+  border-radius: 9px;
+  background: #fff9f3;
+  color: #9d4a20;
+  margin-top: 15px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+}
+.mac-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 47px;
+  padding: 10px 14px;
+  background: linear-gradient(#fffdfb, #f4eee8);
+  border-bottom: 1px solid #e8ddd2;
+  color: #8f7a68;
+}
+.mac-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.mac-controls i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef8b62;
+  border: 1px solid #d8754e;
+}
+.mac-controls i:nth-child(2) {
+  background: #f6c17a;
+  border-color: #e1ac62;
+}
+.mac-controls i:nth-child(3) {
+  background: #e9d3bd;
+  border-color: #d5b79a;
+}
+.mac-address {
+  min-width: 0;
+  flex: 1;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #fffcf9;
+  border: 1px solid #eadfd5;
+  border-radius: 7px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mac-menu {
+  font-size: 20px;
+  line-height: 1;
+}
+.mac-browser {
+  border-color: #e0caba;
+  box-shadow: 0 25px 45px #8e491b22;
+}
+.laptop-display .mac-toolbar {
+  margin: 0;
+  border-radius: 9px 9px 0 0;
+}
+.laptop-display img {
+  aspect-ratio: auto;
+}
+.hero .laptop {
+  max-width: 980px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.typing-char {
+  display: inline;
+  white-space: pre;
+}
+.typing-visual {
+  position: relative;
+  display: inline-block;
+}
+.typing-visual.is-typing:after {
+  content: "";
+  position: absolute;
+  right: -0.12em;
+  top: 0.12em;
+  width: 2px;
+  height: 0.85em;
+  background: currentColor;
+  animation: typing-caret 0.65s steps(1) infinite;
+}
+@keyframes typing-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (max-width: 900px) {
+  .product-panel {
+    grid-template-columns: 1fr;
+  }
+  .product-panel .feature-visual {
+    order: 0;
+    padding: 30px;
+  }
+  .product-panel .feature-copy {
+    order: 1;
+    padding: 34px;
+  }
+  .product-panel .feature-copy .actions {
+    flex-wrap: nowrap;
+  }
+  .product-panel .feature-copy .actions .btn {
+    width: auto;
+    flex: 1;
+  }
+  .product-tabs button {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  .product-tabs small {
+    line-height: 1.5;
+  }
+  .product-tabs b {
+    font-size: 17px;
+  }
+}
+@media (max-width: 600px) {
+  .product-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 7px;
+    gap: 7px;
+    border-radius: 16px;
+  }
+  .product-tabs button {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    min-height: 73px;
+    padding: 12px 9px;
+    gap: 8px;
+  }
+  .product-tabs button > span:last-child {
+    min-width: 0;
+    width: 100%;
+  }
+  .product-tabs b {
+    font-size: 16px;
+  }
+  .product-tabs small {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .tab-symbol {
+    width: 29px;
+    height: 29px;
+    border-radius: 9px;
+    font-size: 19px;
+  }
+  .product-panel {
+    min-height: 0;
+  }
+  .product-panel .feature-visual {
+    padding: 22px 14px;
+  }
+  .product-panel .feature-copy {
+    padding: 28px 23px;
+  }
+  .product-panel .feature-copy h2 {
+    font-size: 28px;
+  }
+  .product-panel .feature-copy .actions {
+    flex-direction: column;
+  }
+  .product-panel .feature-copy .actions .btn {
+    width: 100%;
+    flex: auto;
+  }
+  .mac-toolbar {
+    gap: 8px;
+    min-height: 38px;
+    padding: 8px;
+  }
+  .mac-controls {
+    gap: 4px;
+  }
+  .mac-controls i {
+    width: 8px;
+    height: 8px;
+  }
+  .mac-address {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+  .mac-menu {
+    display: none;
+  }
+  .product-panel .screen-original {
+    width: 100%;
+    justify-content: center;
+  }
+  .product-panel .visual-note {
+    padding: 13px;
+    gap: 9px;
+  }
+  .product-panel .visual-note > span {
+    width: 28px;
+    height: 28px;
+  }
+  .product-section .section-title {
+    margin-bottom: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .typing-char {
+    opacity: 1 !important;
+  }
+  .typing-visual:after {
+    display: none !important;
+  }
+}
+.product-tabs small {
+  color: #80644e;
+}
+.mac-toolbar {
+  color: #705c4c;
+}
+.btn.orange {
+  color: #3b210f;
 }
