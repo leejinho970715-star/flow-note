@@ -5,7 +5,6 @@ import {
   useCallback,
   useRef,
   type FormEvent,
-  type CSSProperties,
 } from "react";
 import { db } from "../lib/data";
 import { money, readOnly, type Org } from "../lib/domain";
@@ -349,7 +348,6 @@ export default function StudioWorkspace({ kind }: { kind: ProductKind }) {
   return (
     <div
       className={"app-shell studio-workspace " + kind}
-      style={{ "--accent": info.color } as CSSProperties}
     >
       <aside className="app-rail">
         <a className="af-brand" href={"/" + kind + "/"}>
