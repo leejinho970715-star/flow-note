@@ -1,11 +1,32 @@
 {
   "capturedOn": "2026-10-31",
   "timezone": "Asia/Seoul",
-  "content": "Actual deployed product UI with fictional sample records. Original product colors are preserved; no synthetic dashboard redraw or screenshot recoloring.",
+  "content": "Actual product UI with fictional sample records. Orange theme captured from locally built release candidates; no recoloring or synthetic redraw.",
   "screens": [
-    {"file":"flownote-screen.jpg","source":"https://flow-note-psi.vercel.app/workspace/","view":"전체 업무"},
-    {"file":"agencyflow-screen.jpg","source":"https://agencyflow-studio-dun.vercel.app/workspace/","view":"시안 피드백 · 핀 1 선택 · 기존 다크 테마"},
-    {"file":"follonote-screen.jpg","source":"https://flownote-studio.vercel.app/follonote/workspace/?view=deals","view":"영업 파이프라인"},
-    {"file":"crewmemo-screen.jpg","source":"https://flownote-studio.vercel.app/crewmemo/workspace/?view=approvals","view":"내부 결재 · 샘플 결재자 이유진"}
-  ]
+    {
+      "file": "flownote-screen.jpg",
+      "source": "https://flow-note-psi.vercel.app/workspace/",
+      "view": "전체 업무",
+      "note": "Orange UI release candidate"
+    },
+    {
+      "file": "agencyflow-screen.jpg",
+      "source": "https://agencyflow-studio-dun.vercel.app/workspace/",
+      "view": "시안 피드백 · 핀 1 선택 · 오렌지 라이트 테마",
+      "note": "Orange UI release candidate"
+    },
+    {
+      "file": "follonote-screen.jpg",
+      "source": "https://flownote-studio.vercel.app/follonote/workspace/?view=deals",
+      "view": "영업 파이프라인",
+      "note": "Orange UI release candidate"
+    },
+    {
+      "file": "crewmemo-screen.jpg",
+      "source": "https://flownote-studio.vercel.app/crewmemo/workspace/?view=approvals",
+      "view": "내부 결재 · 샘플 작성자 김하린",
+      "note": "Orange UI release candidate"
+    }
+  ],
+  "captureEnvironment": "Local static production builds, 2026-10-31 KST"
 }

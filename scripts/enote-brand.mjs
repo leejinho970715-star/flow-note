@@ -11,7 +11,7 @@ await mkdir(new URL("agencyflow/public/product-assets/", root), {
   recursive: true,
 });
 for (const [kind, path] of Object.entries(marks)) {
-  const color = kind === "enote" ? "#ed7834" : "#226754";
+  const color = kind === "enote" ? "#ed7834" : "#c4541b";
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="17" fill="${color}"/>${kind === "crewmemo" ? '<g fill="none" stroke="#fff" stroke-width="3.5"><circle cx="32" cy="22" r="6"/><circle cx="19" cy="29" r="4"/><circle cx="45" cy="29" r="4"/></g>' : ""}<path d="${path}" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   await writeFile(
     new URL("agencyflow/public/product-assets/" + kind + "-icon.svg", root),

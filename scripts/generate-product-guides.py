@@ -30,7 +30,7 @@ for weight,name in [(400,'Pretendard'),(700,'PretendardBold')]:
         font.flavor=None; font.save(target)
     pdfmetrics.registerFont(RLFont(name,str(target)))
 
-INK=HexColor('#243c32'); MUTED=HexColor('#65776b'); GREEN=HexColor('#226754'); LINE=HexColor('#e1e7dd'); BG=HexColor('#f5f7f3')
+INK=HexColor('#382c24'); MUTED=HexColor('#806e62'); GREEN=HexColor('#c4541b'); LINE=HexColor('#ecded3'); BG=HexColor('#fbf7f3')
 W,H=595.28,841.89
 STYLE=ParagraphStyle('body',fontName='Pretendard',fontSize=13,leading=22,textColor=INK,wordWrap='CJK',spaceAfter=12)
 
