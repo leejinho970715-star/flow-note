@@ -352,7 +352,7 @@ export default function StudioWorkspace({ kind }: { kind: ProductKind }) {
       <aside className="app-rail">
         <a className="af-brand" href={"/" + kind + "/"}>
           <img src={"/product-assets/" + kind + "-icon.svg"} alt="" />
-          {info.name}
+          <span className="brand-copy">{info.name}<small>{info.category}</small></span>
         </a>
         <div className="workspace-name">
           <span className="avatar">

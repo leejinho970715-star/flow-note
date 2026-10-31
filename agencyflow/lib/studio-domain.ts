@@ -2,6 +2,7 @@ export type ProductKind = "follonote" | "crewmemo";
 export const productInfo = {
   follonote: {
     name: "Follonote",
+    category: "CRM",
     ko: "Follonote",
     color: "#c4541b",
     tag: "SALES CRM",
@@ -10,6 +11,7 @@ export const productInfo = {
   },
   crewmemo: {
     name: "Crewmemo",
+    category: "Groupware",
     ko: "Crewmemo",
     color: "#c4541b",
     tag: "TEAM GROUPWARE",

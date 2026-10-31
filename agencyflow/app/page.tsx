@@ -7,7 +7,7 @@ export default function Home() {
       <header className="public-header">
         <a className="af-brand" href="/">
           <img src="/favicon.svg" alt="" />
-          Agency<span>Flow</span>
+          <span className="brand-copy">AgencyFlow<small>PMS · Project &amp; Feedback</small></span>
         </a>
         <nav>
           <a href="#workflow">어떻게 쓰나요?</a>

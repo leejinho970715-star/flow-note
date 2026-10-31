@@ -24,3 +24,5 @@ Mobile marketing panels show the actual product screen before explanatory copy. 
 Four public `/manuals/{product}-guide.pdf` documents contain product introduction, getting started, a page for each major workspace screen, and current availability/limitations. Buttons labelled `제품소개서 보기` open them in a new tab from the company feature sections and each workspace. Documents use embedded Pretendard and 2026-10-30 availability statements.
 
 Authoring: bundled Python + reportlab, pypdf, pypdfium2, fonttools, brotli, Pillow. Actual sample UI captures live in `docs/product-screens/`; run `scripts/generate-product-guides.py`, inspect all rendered contact sheets in `tmp/pdfs/`, then rebuild Next.js and the company target. Published PDFs live in `agencyflow/public/manuals/`; local delivery copies in `output/pdf/`. App functionality is not promoted to complete merely by documenting it.
+
+Product labels: Flownote — ERP; AgencyFlow — PMS (Project & Feedback); Follonote — CRM; Crewmemo — Groupware. Show the category below the product wordmark and in the company product tabs.

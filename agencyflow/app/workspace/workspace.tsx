@@ -377,7 +377,7 @@ export default function Workspace() {
       <aside className="app-rail">
         <a className="af-brand" href="/">
           <img src="/favicon.svg" alt="" />
-          Agency<span>Flow</span>
+          <span className="brand-copy">AgencyFlow<small>PMS · Project &amp; Feedback</small></span>
         </a>
         <div className="workspace-name">
           <span className="avatar">{org?.name?.slice(0, 1) || "A"}</span>

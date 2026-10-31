@@ -68,7 +68,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
       <header className="public-header">
         <a className="af-brand" href={studioOrigin + "/" + kind + "/"}>
           <img src={"/product-assets/" + kind + "-icon.svg"} alt="" />
-          {p.name}
+          <span className="brand-copy">{p.name}<small>{p.category}</small></span>
         </a>
         <nav>
           <a href={studioOrigin + "/"}>ENOTE-LABS</a>

@@ -3,6 +3,7 @@ export const products = [
   {
     id: "flownote",
     name: "Flownote",
+    category: "ERP",
     ko: "플로노트",
     tag: "보고 · 프로젝트 운영",
     color: "#c65a22",
@@ -24,6 +25,7 @@ export const products = [
   {
     id: "agencyflow",
     name: "AgencyFlow",
+    category: "PMS",
     ko: "에이전시플로우",
     tag: "고객 피드백 · 시안 검수",
     color: "#c65a22",
@@ -45,6 +47,7 @@ export const products = [
   {
     id: "follonote",
     name: "Follonote",
+    category: "CRM",
     ko: "Follonote",
     tag: "영업 · 고객 관리",
     color: "#c65a22",
@@ -66,6 +69,7 @@ export const products = [
   {
     id: "crewmemo",
     name: "Crewmemo",
+    category: "Groupware",
     ko: "Crewmemo",
     tag: "그룹웨어 · 팀 협업",
     color: "#c65a22",
@@ -91,7 +95,7 @@ const browser = (p) =>
   `<div class="browser mac-browser mock-motion"><div class="mac-toolbar"><div class="mac-controls" aria-hidden="true"><i></i><i></i><i></i></div><div class="mac-address"><span aria-hidden="true">⌑</span>${p.name} · 실제 제품 화면</div><span class="mac-menu" aria-hidden="true">⋯</span></div><img src="/assets/${p.id}-screen.jpg" alt="${p.ko} 실제 제품의 가상 샘플 화면 캡처" width="1280" height="720" loading="lazy"></div>`;
 const heading = (tag, title, desc = "") =>
   `<div class="section-title reveal"><span class="eyebrow">${tag}</span><h2>${title.replaceAll("<em>", "<em data-typewriter>")}</h2>${desc ? `<p>${desc}</p>` : ""}</div>`;
-const productShowcase = `<section class="section wrap product-section" id="products">${heading("FIND YOUR WORKFLOW", "우리 팀에 맞는 제품,<br><em>탭으로 살펴보세요.</em>", "보고부터 고객 피드백, 영업과 팀 협업까지.<br>실제 제품의 가상 샘플 화면으로 확인하세요.")}<div class="product-tabs" role="tablist" aria-label="제품 종류" aria-orientation="horizontal">${products.map((p, i) => `<button type="button" role="tab" id="tab-${p.id}" aria-controls="${p.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-product="${p.id}"><span class="tab-symbol" aria-hidden="true">${p.icon}</span><span><b>${p.name}</b><small>${p.tag}</small></span></button>`).join("")}</div><div class="product-panels">${products.map((p, i) => `<article class="feature-card product-panel" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}" tabindex="0" data-product-panel><div class="feature-copy"><span class="product-label">0${i + 1} / ${p.name.toUpperCase()}</span><h2>${p.title}</h2><p>${p.desc}</p><ul>${p.items.map((s) => `<li>${s}</li>`).join("")}</ul><div class="actions">${btn(p.ko + " 직접 살펴보기 ↗", p.url)}${btn("제품소개서 보기 ↗", "/manuals/" + p.id + "-guide.pdf", "white")}</div><small>${p.note}</small></div><div class="feature-visual">${browser(p)}<div class="visual-note"><span aria-hidden="true">${p.icon}</span><div><b>${p.chip}</b><p>${p.sub}</p></div></div><a class="screen-original" href="/assets/${p.id}-screen.jpg" target="_blank" rel="noopener noreferrer">실제 캡처 크게 보기 ↗</a></div></article>`).join("")}</div><p class="caption">실제 제품을 캡처한 가상 자료 화면입니다. 제품 화면의 고유 색상은 유지했습니다.<br>제품별 기능과 제공 범위는 소개서에서 확인하세요.</p><p class="sr-only" id="product-tab-status" aria-live="polite"></p></section>`;
+const productShowcase = `<section class="section wrap product-section" id="products">${heading("FIND YOUR WORKFLOW", "우리 팀에 맞는 제품,<br><em>탭으로 살펴보세요.</em>", "보고부터 고객 피드백, 영업과 팀 협업까지.<br>실제 제품의 가상 샘플 화면으로 확인하세요.")}<div class="product-tabs" role="tablist" aria-label="제품 종류" aria-orientation="horizontal">${products.map((p, i) => `<button type="button" role="tab" id="tab-${p.id}" aria-controls="${p.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-product="${p.id}"><span class="tab-symbol" aria-hidden="true">${p.icon}</span><span><b>${p.name}</b><small><strong>${p.category}</strong><br>${p.tag}</small></span></button>`).join("")}</div><div class="product-panels">${products.map((p, i) => `<article class="feature-card product-panel" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}" tabindex="0" data-product-panel><div class="feature-copy"><span class="product-label">0${i + 1} / ${p.name.toUpperCase()} · ${p.category}</span><h2>${p.title}</h2><p>${p.desc}</p><ul>${p.items.map((s) => `<li>${s}</li>`).join("")}</ul><div class="actions">${btn(p.ko + " 직접 살펴보기 ↗", p.url)}${btn("제품소개서 보기 ↗", "/manuals/" + p.id + "-guide.pdf", "white")}</div><small>${p.note}</small></div><div class="feature-visual">${browser(p)}<div class="visual-note"><span aria-hidden="true">${p.icon}</span><div><b>${p.chip}</b><p>${p.sub}</p></div></div><a class="screen-original" href="/assets/${p.id}-screen.jpg" target="_blank" rel="noopener noreferrer">실제 캡처 크게 보기 ↗</a></div></article>`).join("")}</div><p class="caption">실제 제품을 캡처한 가상 자료 화면입니다. 제품 화면의 고유 색상은 유지했습니다.<br>제품별 기능과 제공 범위는 소개서에서 확인하세요.</p><p class="sr-only" id="product-tab-status" aria-live="polite"></p></section>`;
 const faq = [
   [
     "어떤 회사에 잘 맞나요?",
