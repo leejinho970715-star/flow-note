@@ -1971,11 +1971,20 @@ a:focus-visible {
 }
 .capabilities {
   width: 100%;
+  margin-block: 120px;
   padding: 60px 0;
   background:
     radial-gradient(ellipse at 50% 100%, #8b481d24, transparent 70%), #26221f;
   color: #fff;
   isolation: isolate;
+}
+.capabilities + .section {
+  padding-top: 0;
+}
+@media (max-width: 700px) {
+  .capabilities {
+    margin-block: 75px;
+  }
 }
 .capability-grid {
   display: flex;
