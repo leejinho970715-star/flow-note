@@ -259,6 +259,44 @@ dd {
   line-height: 1.5;
   color: var(--accent);
 }
+.pms-search {
+  display: grid;
+  gap: 6px;
+  max-width: 540px;
+  margin: 18px 0;
+}
+.pms-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.pms-facts > div {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+  background: var(--soft);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.pms-detail .actions {
+  margin: 18px 0;
+}
+.pms-detail progress {
+  width: 100%;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.pms-progress {
+  font-size: 14px;
+  color: var(--accent);
+  margin: 10px 0;
+}
+@media (max-width: 600px) {
+  .pms-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .public-header {
   max-width: 1280px;
   margin: auto;

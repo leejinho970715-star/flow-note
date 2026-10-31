@@ -7,7 +7,9 @@ export default function Home() {
       <header className="public-header">
         <a className="af-brand" href="/">
           <img src="/favicon.svg" alt="" />
-          <span className="brand-copy">AgencyFlow<small>PMS · Project &amp; Feedback</small></span>
+          <span className="brand-copy">
+            ProjectFlow<small>PMS · Project &amp; Feedback</small>
+          </span>
         </a>
         <nav>
           <a href="#workflow">어떻게 쓰나요?</a>
@@ -28,16 +30,16 @@ export default function Home() {
         </a>
         <section className="public-hero">
           <div>
-            <span className="eyebrow">FOR CREATIVE TEAMS</span>
+            <span className="eyebrow">FOR EVERY PROJECT</span>
             <h1>
-              수정 요청,
+              프로젝트의 시작부터,
               <br />
-              이제 <em>같은 화면에서.</em>
+              완료까지 <em>한 흐름으로.</em>
             </h1>
             <p>
-              “어느 부분 말씀하시는 걸까요?”
+              컨설팅·교육·행사·운영 개선·제작 업무까지.
               <br />
-              시안 위에 바로 남기고, 처리하고, 승인받으세요.
+              담당자와 일정, 작업 진척을 확인하고 필요한 자료를 함께 검토하세요.
             </p>
             <div className="actions">
               <a className="button primary" href="/workspace/">
@@ -54,36 +56,36 @@ export default function Home() {
           </div>
           <div className="hero-window">
             <div className="window-top">
-              <span>루미에르 · 홈페이지 v1</span>
+              <span>ProjectFlow · 프로젝트 운영</span>
               <b>샘플 화면</b>
             </div>
-            <img src="/sample-design.svg" alt="가상 브랜드의 웹 디자인 시안" />
+            <img src="/product-assets/projectflow-dashboard.jpg" alt="ProjectFlow 프로젝트·일정·작업 현황의 실제 가상 샘플 화면" />
             <div className="hero-comment">
-              <b>01 · 고객의 피드백</b>
-              <p>버튼 문구를 바꿔주세요.</p>
-              <span>대기 → 작업중 → 완료</span>
+              <b>담당자 · 기한 · 진행 상황</b>
+              <p>다음 확인할 업무를 한눈에.</p>
+              <span>접수 → 실행 → 검토 → 완료</span>
             </div>
           </div>
         </section>
         <section id="workflow" className="public-section">
-          <span className="eyebrow">LESS BACK-AND-FORTH</span>
-          <h2>긴 설명 대신, 정확한 위치 하나.</h2>
+          <span className="eyebrow">PLAN. DO. REVIEW.</span>
+          <h2>업종이 달라도, 프로젝트의 기본은 같습니다.</h2>
           <div className="feature-grid">
             {[
               [
                 "01",
-                "시안을 올리세요",
-                "PNG·JPG·WebP 이미지를 버전별로 보관합니다.",
+                "프로젝트를 계획하세요",
+                "고객 또는 요청 부서, 담당자와 시작일·마감일·현재 단계를 정합니다.",
               ],
               [
                 "02",
-                "위치를 눌러 이야기하세요",
-                "고객의 수정 요청과 답글을 같은 핀에서 확인합니다.",
+                "작업과 기한을 관리하세요",
+                "프로젝트별 작업을 배정하고 상태·우선순위를 확인합니다. 전체 작업도 모아볼 수 있습니다.",
               ],
               [
                 "03",
-                "확인한 버전을 승인하세요",
-                "미완료 요청을 확인한 뒤 고객이 최신 시안을 승인합니다.",
+                "진척과 결과물을 확인하세요",
+                "등록 작업의 완료율과 기한 초과를 확인하고, 필요한 경우 이미지 자료를 함께 검토합니다.",
               ],
             ].map(([n, t, d]) => (
               <article key={n}>
@@ -96,7 +98,7 @@ export default function Home() {
         </section>
         <section className="public-section split-section">
           <div>
-            <span className="eyebrow">BUILT FOR AGENCIES</span>
+            <span className="eyebrow">BUILT FOR DIFFERENT TEAMS</span>
             <h2>
               고객과 프로젝트,
               <br />
@@ -105,14 +107,14 @@ export default function Home() {
           </div>
           <div>
             <p>
-              작은 웹에이전시·브랜딩 스튜디오·프리랜서 팀을 위해 만들었습니다.
-              프로젝트별 고객 접근 권한, 시안 피드백, 작업 목록과 버전별 견적을
+              컨설팅·교육·행사·사내 운영·제작 팀이 함께 사용할 수 있습니다.
+              프로젝트별 담당자·마감일·작업 완료율과 선택적인 자료 검토·견적을
               연결합니다.
             </p>
             <p>
               실제 사이트를 URL만으로 검수하거나 스크린샷을 자동 수집하는 기능은
-              아직 제공하지 않습니다. 우선 시안·스크린샷 업로드 검수에
-              집중합니다.
+              아직 제공하지 않습니다. 시안·스크린샷 검토는 프로젝트에서
+              선택적으로 사용합니다.
             </p>
           </div>
         </section>
@@ -188,7 +190,7 @@ export default function Home() {
       </main>
       <footer className="public-footer">
         <a className="af-brand" href="/">
-          AgencyFlow
+          ProjectFlow
         </a>
         <p>고객의 한마디가, 다음 작업으로.</p>
         <a href="https://t.me/evanlee97">도입 문의 ↗</a>
@@ -204,18 +206,18 @@ export default function Home() {
             "@graph": [
               {
                 "@type": "WebSite",
-                name: "AgencyFlow",
+                name: "ProjectFlow",
                 url: origin,
                 inLanguage: "ko-KR",
               },
               {
                 "@type": "SoftwareApplication",
-                name: "AgencyFlow",
+                name: "ProjectFlow",
                 applicationCategory: "BusinessApplication",
                 operatingSystem: "Web",
                 url: origin,
                 description:
-                  "웹에이전시와 디자인 스튜디오의 이미지 시안 피드백·프로젝트 운영 협업. 초기 검증판이며 결제·자동 웹 검수는 준비 중.",
+                  "다양한 업종의 프로젝트·일정·작업 진척과 자료 피드백을 관리하는 PMS. 초기 검증판이며 결제·자동 웹 검수는 준비 중.",
               },
             ],
           }).replaceAll("<", "\\u003c"),

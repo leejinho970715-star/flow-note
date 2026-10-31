@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   publisher: "ENOTE-LABS",
   metadataBase: new URL(origin),
   title: {
-    default: "AgencyFlow — 웹에이전시·디자인 스튜디오의 시안 피드백",
-    template: "%s | AgencyFlow",
+    default: "ProjectFlow — 프로젝트·일정·작업·피드백을 연결하는 PMS",
+    template: "%s | ProjectFlow",
   },
   description:
-    "고객의 수정 요청을 시안 위 핀으로 받고, 대화·처리 상태·버전별 승인까지 연결하세요. 웹에이전시와 디자인 스튜디오를 위한 고객 피드백 협업.",
+    "다양한 업종의 프로젝트·담당자·일정·작업 진척을 관리하고, 필요한 결과물을 고객과 함께 검토하는 PMS.",
   alternates: { canonical: "/" },
   icons: {
     icon: [
@@ -24,23 +24,23 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "AgencyFlow",
-    title: "수정 요청, 이제 같은 화면에서.",
+    siteName: "ProjectFlow",
+    title: "프로젝트의 시작부터 완료까지, 한 흐름으로.",
     description:
-      "시안 위 피드백부터 버전별 고객 승인까지. 웹에이전시·디자인 스튜디오의 협업 공간.",
+      "다양한 업종의 프로젝트·담당자·마감일·작업 진행률과 선택적인 자료 검토를 연결합니다.",
     url: origin,
     images: [
       {
         url: "/og-agencyflow.png",
         width: 1200,
         height: 630,
-        alt: "AgencyFlow — 시안 위 피드백부터 고객 승인까지",
+        alt: "ProjectFlow — 프로젝트·작업·자료 검토를 한곳에",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AgencyFlow — 수정 요청, 이제 같은 화면에서.",
+    title: "ProjectFlow — 프로젝트의 시작부터 완료까지.",
     images: ["/og-agencyflow.png"],
   },
   robots: { index: true, follow: true },

@@ -21,7 +21,7 @@ for (const kind of ["flownote", "agencyflow", "follonote", "crewmemo"]) {
   );
   assert.equal(pdf.toString("ascii", 0, 5), "%PDF-");
 }
-for (const name of ["Flownote", "AgencyFlow", "Follonote", "Crewmemo"])
+for (const name of ["Flownote", "ProjectFlow", "Follonote", "Crewmemo"])
   assert(html.includes(name));
 assert(html.includes("https://flownote-studio.vercel.app/"));
 assert.equal((html.match(/<h1>/g) || []).length, 1);
@@ -43,6 +43,11 @@ for (const kind of ["follonote", "crewmemo"]) {
   assert.equal(png.toString("hex", 0, 8), "89504e470d0a1a0a");
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
+}
+for (const name of ["report","feedback","crm","team","check"]) {
+ const asset = await readFile(new URL("dist/assets/clay/"+name+".webp",root));
+ assert.equal(asset.toString("ascii",0,4),"RIFF");
+ assert.equal(asset.toString("ascii",8,12),"WEBP");
 }
 const main = await read("dist/main.js");
 assert(main.includes("ScrollTrigger"));

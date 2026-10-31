@@ -1,0 +1,15 @@
+{
+  "createdOn": "2026-10-31",
+  "style": "Orange and ivory 3D claymorphism, isolated objects without connectors",
+  "source": "ImageGen",
+  "format": "WebP",
+  "size": 256,
+  "alpha": true,
+  "assets": [
+    "report",
+    "feedback",
+    "crm",
+    "team",
+    "check"
+  ]
+}

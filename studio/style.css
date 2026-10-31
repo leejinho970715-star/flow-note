@@ -490,7 +490,12 @@ a:focus-visible {
   margin: 20px 0 28px;
 }
 .feature-copy li:before {
-  content: "✓";
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  background: url("/assets/clay/check.webp") center / contain no-repeat;
   margin-right: 10px;
   color: #df7736;
 }
@@ -1883,4 +1888,54 @@ a:focus-visible {
 }
 .mac-toolbar {
   color: #705c4c;
+}
+.clay-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 5px #9d4a2018);
+}
+.tab-symbol,
+.product-tabs button[aria-selected="true"] .tab-symbol,
+.chip-icon,
+.check,
+.product-panel .visual-note > span {
+  background: none;
+  border-radius: 0;
+}
+.tab-symbol {
+  width: 52px;
+  height: 52px;
+}
+.chip-icon,
+.check {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+.product-panel .visual-note > span {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+.bottom-objects span {
+  background: none;
+  box-shadow: none;
+  width: 96px;
+  height: 104px;
+}
+@media (max-width: 600px) {
+  .tab-symbol {
+    width: 42px;
+    height: 42px;
+  }
+  .product-panel .visual-note > span {
+    width: 38px;
+    height: 38px;
+  }
+  .bottom-objects span {
+    width: 74px;
+    height: 82px;
+  }
 }

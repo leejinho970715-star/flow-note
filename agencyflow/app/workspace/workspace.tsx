@@ -32,8 +32,11 @@ import {
   type Project,
   type Feedback,
 } from "../../lib/domain";
+import { stageLabels, projectSummary } from "../../lib/pms";
+
 type View =
   | "overview"
+  | "project"
   | "projects"
   | "clients"
   | "review"
@@ -47,8 +50,9 @@ type Modal = {
 const labels: Record<View, string> = {
   overview: "전체 흐름",
   projects: "프로젝트",
-  clients: "고객 관리",
-  review: "시안 피드백",
+  project: "프로젝트 개요",
+  clients: "고객 · 요청 부서",
+  review: "자료 검토 · 피드백",
   quotes: "견적서",
   tasks: "작업 목록",
   settings: "팀 · 요금",
@@ -63,6 +67,8 @@ export default function Workspace() {
     [view, setView] = useState<View>("overview"),
     [orgId, setOrgId] = useState(""),
     [projectId, setProjectId] = useState(""),
+    [projectSearch, setProjectSearch] = useState(""),
+    [taskScope, setTaskScope] = useState("project"),
     [versionId, setVersionId] = useState(""),
     [image, setImage] = useState(""),
     [demoRole, setDemoRole] = useState("admin"),
@@ -89,6 +95,18 @@ export default function Workspace() {
     (p) => p.org_id === org?.id && !p.archived,
   );
   const project = projects.find((p) => p.id === projectId) || projects[0];
+  const today = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Asia/Seoul",
+  }).format(new Date());
+  const filteredProjects = projects.filter((p) =>
+    (p.name + " " + p.owner_name)
+      .toLowerCase()
+      .includes(projectSearch.toLowerCase().trim()),
+  );
+  const projectTasks = state.tasks.filter((t) =>
+    projects.some((p) => p.id === t.project_id && p.org_id === t.org_id),
+  );
+  const summary = project ? projectSummary(project, projectTasks, today) : null;
   const clients = state.clients.filter(
     (c) => c.org_id === org?.id && !c.archived,
   );
@@ -116,6 +134,8 @@ export default function Workspace() {
   useEffect(() => {
     const isDemo = new URLSearchParams(location.search).get("mode") !== "cloud";
     setDemo(isDemo);
+    const initialView = new URLSearchParams(location.search).get("view");
+    if (initialView && initialView in labels) setView(initialView as View);
     setProjectId(new URLSearchParams(location.search).get("project") || "");
     setDark(localStorage.getItem("agencyflow-theme") === "dark");
     if (isDemo) setState(loadDemo());
@@ -188,7 +208,7 @@ export default function Workspace() {
       setBusy(false);
     }
   }
-  function pickProject(id: string, nextView: View = "review") {
+  function pickProject(id: string, nextView: View = "project") {
     setProjectId(id);
     setVersionId("");
     setView(nextView);
@@ -370,14 +390,16 @@ export default function Workspace() {
       : "";
   if (!ready)
     return (
-      <main className="loading-page">AgencyFlow를 준비하고 있습니다…</main>
+      <main className="loading-page">ProjectFlow를 준비하고 있습니다…</main>
     );
   return (
     <div className="app-shell">
       <aside className="app-rail">
         <a className="af-brand" href="/">
           <img src="/favicon.svg" alt="" />
-          <span className="brand-copy">AgencyFlow<small>PMS · Project &amp; Feedback</small></span>
+          <span className="brand-copy">
+            ProjectFlow<small>PMS · Project &amp; Feedback</small>
+          </span>
         </a>
         <div className="workspace-name">
           <span className="avatar">{org?.name?.slice(0, 1) || "A"}</span>
@@ -388,6 +410,7 @@ export default function Workspace() {
         </div>
         <nav aria-label="워크스페이스 메뉴">
           {(Object.entries(labels) as [View, string][])
+            .filter(([key]) => key !== "project")
             .filter(
               ([key]) =>
                 !clientView ||
@@ -396,8 +419,16 @@ export default function Workspace() {
             .map(([key, label], i) => (
               <button
                 key={key}
-                aria-current={view === key ? "page" : undefined}
-                className={view === key ? "active" : ""}
+                aria-current={
+                  view === key || (key === "projects" && view === "project")
+                    ? "page"
+                    : undefined
+                }
+                className={
+                  view === key || (key === "projects" && view === "project")
+                    ? "active"
+                    : ""
+                }
                 onClick={() => setView(key)}
               >
                 <span>{["◫", "▤", "◉", "⊙", "▧", "✓", "⚙"][i]}</span>
@@ -552,7 +583,7 @@ export default function Workspace() {
                 새 회사를 만들지 말고 관리자에게 프로젝트 연결을 요청하세요.
               </p>
               <form onSubmit={createOrg}>
-                <Field name="name" label="회사·스튜디오 이름" required />
+                <Field name="name" label="회사·팀 이름" required />
                 <button className="button primary" disabled={busy}>
                   회사 공간 만들기
                 </button>
@@ -563,7 +594,7 @@ export default function Workspace() {
               <div className="page-heading">
                 <div>
                   <span className="eyebrow">
-                    {clientView ? "CLIENT PORTAL" : "CREATIVE OPERATIONS"}
+                    {clientView ? "CLIENT PORTAL" : "PROJECT OPERATIONS"}
                   </span>
                   <h1>
                     {view === "overview"
@@ -600,7 +631,7 @@ export default function Workspace() {
                   </label>
                 )}
               </div>
-              {["review", "quotes", "tasks"].includes(view) && (
+              {["project", "review", "quotes", "tasks"].includes(view) && (
                 <div className="project-switcher">
                   <label>
                     프로젝트
@@ -624,7 +655,8 @@ export default function Workspace() {
                   </label>
                   {project && (
                     <span className="status-badge">
-                      {project.stage} · {project.owner_name || "담당자 미정"}
+                      {stageLabels[project.stage]} ·{" "}
+                      {project.owner_name || "담당자 미정"}
                     </span>
                   )}
                 </div>
@@ -641,13 +673,12 @@ export default function Workspace() {
                         "활성 프로젝트",
                       ],
                       [
-                        "검토할 요청",
-                        state.feedbacks.filter(
-                          (f) =>
-                            projects.some((p) => p.id === f.project_id) &&
-                            f.status !== "완료",
+                        "기한 초과 작업",
+                        projectTasks.filter(
+                          (t) =>
+                            t.status !== "완료" && t.due_on && t.due_on < today,
                         ).length + "개",
-                        "미완료 피드백",
+                        "미완료 작업 기준",
                       ],
                       [
                         "완료 프로젝트",
@@ -656,7 +687,7 @@ export default function Workspace() {
                         "현재 단계 기준",
                       ],
                       [
-                        "유지보수",
+                        "운영 단계",
                         projects.filter((p) => p.stage === "유지보수").length +
                           "곳",
                         "현재 단계 기준",
@@ -694,7 +725,9 @@ export default function Workspace() {
                                 예정
                               </small>
                             </span>
-                            <span className="status-badge">{p.stage}</span>
+                            <span className="status-badge">
+                              {stageLabels[p.stage]}
+                            </span>
                           </button>
                         ))
                       ) : (
@@ -712,7 +745,7 @@ export default function Workspace() {
                           <div key={p.id} className="timeline-item">
                             <strong>{p.due_on}</strong>
                             <p>{p.name}</p>
-                            <small>{p.stage} · 종료 예정일</small>
+                            <small>{stageLabels[p.stage]} · 종료 예정일</small>
                           </div>
                         ))}
                       {!projects.length && (
@@ -737,7 +770,7 @@ export default function Workspace() {
                           className="activity-row"
                           key={f.id}
                           onClick={() => {
-                            pickProject(f.project_id);
+                            pickProject(f.project_id, "review");
                             setVersionId(f.version_id);
                             setSelectedPin(f.id);
                           }}
@@ -821,6 +854,116 @@ export default function Workspace() {
                   )}
                 </>
               )}
+              {view === "project" &&
+                (project && summary ? (
+                  <section className="panel pms-detail">
+                    <div className="section-heading">
+                      <div>
+                        <span className="eyebrow">PROJECT OVERVIEW</span>
+                        <h2>{project.name}</h2>
+                        <p>
+                          {clients.find((c) => c.id === project.client_id)
+                            ?.name || "연결 프로젝트"}
+                        </p>
+                      </div>
+                      <button onClick={() => setView("projects")}>
+                        ← 프로젝트 목록
+                      </button>
+                    </div>
+                    <div className="pms-facts">
+                      <div>
+                        <small>담당자</small>
+                        <b>{project.owner_name || "미정"}</b>
+                      </div>
+                      <div>
+                        <small>기간</small>
+                        <b>
+                          {project.starts_on} ~ {project.due_on}
+                        </b>
+                      </div>
+                      <div>
+                        <small>진행 단계</small>
+                        <b>{stageLabels[project.stage]}</b>
+                      </div>
+                      <div>
+                        <small>일정 상태</small>
+                        <b>
+                          {summary.overdue
+                            ? "기한 초과"
+                            : ["완료", "운영"].includes(
+                                  stageLabels[project.stage],
+                                )
+                              ? "완료"
+                              : "일정 확인"}
+                        </b>
+                      </div>
+                    </div>
+                    {!clientView && (
+                      <>
+                        <h3>등록 작업 기준 진행률</h3>
+                        <p>
+                          {summary.percent === null
+                            ? "등록된 작업이 없어 진행률을 계산하지 않습니다."
+                            : summary.done +
+                              " / " +
+                              summary.total +
+                              "개 완료 · " +
+                              summary.percent +
+                              "%"}
+                        </p>
+                        <progress
+                          aria-label="작업 완료율"
+                          max={100}
+                          value={summary.percent ?? 0}
+                        />
+                        <p>
+                          기한을 넘긴 미완료 작업 {summary.overdueTasks}개 ·
+                          진행률은 프로젝트 승인이나 납품 완료를 뜻하지
+                          않습니다.
+                        </p>
+                        <div className="actions">
+                          <button
+                            className="button primary"
+                            disabled={locked || busy}
+                            onClick={() => setModal({ kind: "task" })}
+                          >
+                            + 작업 추가
+                          </button>
+                          <button
+                            onClick={() => {
+                              setTaskScope("project");
+                              setView("tasks");
+                            }}
+                          >
+                            작업 보드 보기
+                          </button>
+                          <button
+                            onClick={() =>
+                              setModal({ kind: "project", data: project })
+                            }
+                            disabled={locked}
+                          >
+                            프로젝트 정보 수정
+                          </button>
+                        </div>
+                      </>
+                    )}
+                    <div className="actions">
+                      <button onClick={() => setView("review")}>
+                        자료·시안 검토
+                      </button>
+                      <button onClick={() => setView("quotes")}>
+                        견적·승인 기록
+                      </button>
+                    </div>
+                    <p className="muted">
+                      자료 검토는 필요한 프로젝트에서 선택적으로 사용하세요.
+                      일정과 업무 관리는 시안 업로드 없이도 가능합니다.
+                    </p>
+                  </section>
+                ) : (
+                  <p className="empty-state">프로젝트를 먼저 선택하세요.</p>
+                ))}
               {view === "projects" && (
                 <>
                   <div className="section-heading">
@@ -837,22 +980,45 @@ export default function Workspace() {
                   </div>
                   {!clients.length && !clientView && (
                     <p className="muted">
-                      고객 관리에서 고객을 먼저 등록하세요.
+                      고객 · 요청 부서에서 외부 고객 또는 내부 요청 부서를 먼저
+                      등록하세요.
                     </p>
                   )}
+                  <label className="pms-search">
+                    프로젝트 검색
+                    <input
+                      aria-label="프로젝트 검색"
+                      value={projectSearch}
+                      onChange={(e) => setProjectSearch(e.target.value)}
+                      placeholder="프로젝트명 또는 담당자 검색"
+                    />
+                  </label>
+                  <p className="muted">
+                    컨설팅·교육·행사·제조·사내 개선 업무도 같은 흐름으로
+                    관리하세요. 기존 저장 단계는 유지하며 일반 업무 명칭으로
+                    표시합니다.
+                  </p>
                   <p className="mobile-scroll-note">
                     보드를 좌우로 움직여 다음 단계를 확인하세요.
                   </p>
+                  {!filteredProjects.length && (
+                    <p className="empty-state">
+                      검색 조건에 맞는 프로젝트가 없습니다.
+                    </p>
+                  )}
                   <div className="kanban-board">
                     {stages.map((stage) => (
                       <section className="kanban-column" key={stage}>
                         <h3>
-                          {stage}
+                          {stageLabels[stage]}
                           <span>
-                            {projects.filter((p) => p.stage === stage).length}
+                            {
+                              filteredProjects.filter((p) => p.stage === stage)
+                                .length
+                            }
                           </span>
                         </h3>
-                        {projects
+                        {filteredProjects
                           .filter((p) => p.stage === stage)
                           .map((p) => (
                             <article className="kanban-card" key={p.id}>
@@ -869,6 +1035,15 @@ export default function Workspace() {
                               <small>
                                 {p.owner_name || "담당자 미정"} · {p.due_on}
                               </small>
+                              <p className="pms-progress">
+                                {projectSummary(p, projectTasks, today)
+                                  .percent === null
+                                  ? "등록 작업 없음"
+                                  : `작업 ${projectSummary(p, projectTasks, today).percent}% 완료`}
+                                {projectSummary(p, projectTasks, today).overdue
+                                  ? " · 기한 초과"
+                                  : ""}
+                              </p>
                               {!clientView && (
                                 <>
                                   <label>
@@ -885,7 +1060,14 @@ export default function Workspace() {
                                       }
                                     >
                                       {stages.map((s) => (
-                                        <option key={s}>{s}</option>
+                                        <option key={s} value={s}>
+                                          {(
+                                            stageLabels as Record<
+                                              string,
+                                              string
+                                            >
+                                          )[s] || s}
+                                        </option>
                                       ))}
                                     </select>
                                   </label>
@@ -1084,7 +1266,10 @@ export default function Workspace() {
                             onChange={(e) => setFilter(e.target.value)}
                           >
                             {["전체", "대기", "작업중", "완료"].map((s) => (
-                              <option key={s}>{s}</option>
+                              <option key={s} value={s}>
+                                {(stageLabels as Record<string, string>)[s] ||
+                                  s}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -1178,7 +1363,11 @@ export default function Workspace() {
                                   }
                                 >
                                   {["대기", "작업중", "완료"].map((s) => (
-                                    <option key={s}>{s}</option>
+                                    <option key={s} value={s}>
+                                      {(stageLabels as Record<string, string>)[
+                                        s
+                                      ] || s}
+                                    </option>
                                   ))}
                                 </select>
                               </label>
@@ -1472,7 +1661,7 @@ export default function Workspace() {
                         <>
                           <div className="quote-document">
                             <div className="quote-document-head">
-                              <span className="af-brand">AgencyFlow</span>
+                              <span className="af-brand">ProjectFlow</span>
                               <span>견적서 · v{quote.number}</span>
                             </div>
                             <h2>{project.name}</h2>
@@ -1573,7 +1762,11 @@ export default function Workspace() {
               {view === "tasks" && !clientView && (
                 <>
                   <div className="section-heading">
-                    <h2>{project?.name || "프로젝트 선택"}의 작업</h2>
+                    <h2>
+                      {taskScope === "all"
+                        ? "전체 프로젝트 작업"
+                        : (project?.name || "프로젝트 선택") + "의 작업"}
+                    </h2>
                     <button
                       className="button primary"
                       disabled={!project || locked}
@@ -1582,20 +1775,44 @@ export default function Workspace() {
                       + 작업 추가
                     </button>
                   </div>
+                  <label className="pms-search">
+                    작업 범위
+                    <select
+                      value={taskScope}
+                      onChange={(e) => setTaskScope(e.target.value)}
+                    >
+                      <option value="project">선택한 프로젝트</option>
+                      <option value="all">전체 프로젝트</option>
+                    </select>
+                  </label>
                   <div className="task-columns">
                     {["대기", "진행중", "완료"].map((status) => (
                       <section className="panel" key={status}>
                         <h3>{status}</h3>
-                        {state.tasks
+                        {projectTasks
                           .filter(
                             (t) =>
-                              t.project_id === project?.id &&
+                              (taskScope === "all" ||
+                                t.project_id === project?.id) &&
                               t.status === status,
                           )
                           .map((t) => (
                             <article className="task-card" key={t.id}>
                               <span className="status-badge">{t.priority}</span>
+                              <small>
+                                {
+                                  projects.find((p) => p.id === t.project_id)
+                                    ?.name
+                                }
+                              </small>
                               <h3>{t.title}</h3>
+                              {t.status !== "완료" &&
+                                t.due_on &&
+                                t.due_on < today && (
+                                  <span className="status-badge">
+                                    기한 초과
+                                  </span>
+                                )}
                               <p>
                                 {t.owner_name || "담당자 미정"} · {t.due_on}
                               </p>
@@ -1606,12 +1823,17 @@ export default function Workspace() {
                                 onChange={(e) =>
                                   run("task_status", {
                                     id: t.id,
+                                    project_id: t.project_id,
                                     status: e.target.value,
                                   })
                                 }
                               >
                                 {["대기", "진행중", "완료"].map((s) => (
-                                  <option key={s}>{s}</option>
+                                  <option key={s} value={s}>
+                                    {(stageLabels as Record<string, string>)[
+                                      s
+                                    ] || s}
+                                  </option>
                                 ))}
                               </select>
                             </article>
@@ -1768,7 +1990,7 @@ export default function Workspace() {
               <>
                 <Field
                   name="name"
-                  label="회사명"
+                  label="고객 · 요청 부서명"
                   value={getDefault("name")}
                   required
                 />
@@ -1812,7 +2034,7 @@ export default function Workspace() {
                   required
                 />
                 <label>
-                  고객
+                  고객 · 요청 부서
                   <select
                     name="client_id"
                     defaultValue={getDefault("client_id")}
@@ -1865,7 +2087,9 @@ export default function Workspace() {
                     defaultValue={getDefault("stage") || "상담"}
                   >
                     {stages.map((s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {(stageLabels as Record<string, string>)[s] || s}
+                      </option>
                     ))}
                   </select>
                 </label>
@@ -1879,6 +2103,16 @@ export default function Workspace() {
             )}
             {modal.kind === "task" && (
               <>
+                <label>
+                  프로젝트
+                  <select name="project_id" defaultValue={project?.id} required>
+                    {projects.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <Field name="title" label="작업 제목" required />
                 <Field name="owner_name" label="담당자 표시 이름" />
                 <Field name="due_on" label="마감일" type="date" required />
@@ -1886,7 +2120,9 @@ export default function Workspace() {
                   우선순위
                   <select name="priority">
                     {["낮음", "보통", "높음", "긴급"].map((s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {(stageLabels as Record<string, string>)[s] || s}
+                      </option>
                     ))}
                   </select>
                 </label>

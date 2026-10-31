@@ -471,7 +471,7 @@ export default function StudioWorkspace({ kind }: { kind: ProductKind }) {
                 <span className="eyebrow">{info.tag}</span>
                 <h1>{info.title}</h1>
                 <p>
-                  공통 Studio 회사 계정을 사용합니다. 기존 AgencyFlow의 회사에
+                  공통 Studio 회사 계정을 사용합니다. 기존 ProjectFlow의 회사에
                   속해 있으면 같은 회사 공간을 선택할 수 있습니다.
                 </p>
                 <p className="muted">

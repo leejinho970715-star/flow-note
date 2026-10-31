@@ -146,7 +146,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
           <h2>팀의 실제 방식에 맞춰 시작하세요.</h2>
           <p>
             회사별 접근 제한과 저장, 공통 팀 계정 연결을 제공합니다. 14일 검증
-            체험은 AgencyFlow와 같은 회사 공간의 체험 기간을 사용합니다. 체험
+            체험은 ProjectFlow와 같은 회사 공간의 체험 기간을 사용합니다. 체험
             종료 시 기존 자료는 조회할 수 있지만 쓰기는 제한됩니다.
           </p>
           <p>

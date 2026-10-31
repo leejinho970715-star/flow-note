@@ -54,6 +54,19 @@ export function sample(): State {
     ],
     projects: [
       {
+        id: "demo-workshop",
+        org_id: org,
+        client_id: client,
+        name: "분기 워크숍 운영",
+        stage: "개발",
+        owner_name: "이운영",
+        amount: 0,
+        starts_on: "2026-10-30",
+        due_on: "2026-11-15",
+        website_url: "",
+        archived: false,
+      },
+      {
         id: project,
         org_id: org,
         client_id: client,
@@ -65,6 +78,48 @@ export function sample(): State {
         due_on: "2026-11-20",
         website_url: "",
         archived: false,
+      },
+    ],
+    tasks: [
+      {
+        id: "demo-workshop-task",
+        org_id: org,
+        project_id: "demo-workshop",
+        title: "참석자와 프로그램 확정",
+        status: "진행중",
+        priority: "높음",
+        due_on: "2026-11-03",
+        owner_name: "이운영",
+      },
+      {
+        id: "demo-task-1",
+        org_id: org,
+        project_id: project,
+        title: "완료 기준과 일정 확정",
+        status: "완료",
+        priority: "높음",
+        due_on: "2026-10-30",
+        owner_name: "샘플 PM",
+      },
+      {
+        id: "demo-task-2",
+        org_id: org,
+        project_id: project,
+        title: "검토 의견 취합",
+        status: "진행중",
+        priority: "보통",
+        due_on: "2026-11-05",
+        owner_name: "샘플 담당자",
+      },
+      {
+        id: "demo-task-3",
+        org_id: org,
+        project_id: project,
+        title: "결과물 인수 확인",
+        status: "대기",
+        priority: "높음",
+        due_on: "2026-11-20",
+        owner_name: "샘플 PM",
       },
     ],
     versions: [
@@ -370,8 +425,11 @@ export async function upload(
     const key = await demoImage(file);
     return { path: "idb:" + key, image_url: URL.createObjectURL(file) };
   }
-  const reservation = await command('reserve_upload', {
-    org_id: org.id, project_id: projectId, bytes: file.size, mime: file.type,
+  const reservation = await command("reserve_upload", {
+    org_id: org.id,
+    project_id: projectId,
+    bytes: file.size,
+    mime: file.type,
   });
   const path = String(reservation.path);
   const { error } = await db.storage

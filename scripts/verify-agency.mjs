@@ -15,4 +15,4 @@ for(const [file,w,h] of [['og-agencyflow.png',1200,630],['favicon-32.png',32,32]
 }
 async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){if(item.isDirectory())await walk(new URL(item.name+'/',dir));else assert(!/\.sql$|\.env|\.sqlite|package\.json$|social-preview\.html|icon-preview\.html/.test(item.name),'Non-public file: '+item.name);}}
 await walk(output);
-console.log('AgencyFlow verification passed: independent SEO/OG/icons, private workspace noindex, truthful billing, public files only.');
+console.log('ProjectFlow verification passed: independent SEO/OG/icons, private workspace noindex, truthful billing, public files only.');

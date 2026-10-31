@@ -3,7 +3,7 @@ Run with the bundled Python (reportlab, pypdfium2, fonttools, brotli).
 Screens are fictional-sample screenshots captured from the actual static apps.
 """
 from pathlib import Path
-import shutil, io, json
+import shutil, io, json, sys
 from xml.sax.saxutils import escape
 from PIL import Image
 from fontTools.ttLib import TTFont
@@ -42,7 +42,7 @@ products={
  ('reports','보고서 보관함','검수할 보고서와 승인된 버전을 구분합니다.',['상태와 고객·기간을 확인하고 보고서를 선택하세요.','다운로드한 샘플은 실제 고객 실적이 아닙니다.','로컬 운영판은 작성자와 다른 담당자의 검수·승인 흐름을 제공합니다.']),
  ('team','팀 · 권한','작성자와 검수자의 역할을 나눕니다.',['공개 화면은 가상 팀의 역할 예시입니다.','실제 계정·권한 검사는 로컬 운영판에서 동작합니다.','작성자가 자신이 만든 보고서를 승인하지 않는 것이 기본 원칙입니다.']),
  ('audit','변경 기록','어떤 버전과 상태를 확인했는지 살펴봅니다.',['공개 화면은 가상 변경 이력입니다.','로컬 운영판에서 버전·검수 이력을 확인합니다.','수동 전달 기록과 고객의 실제 수신 확인은 다릅니다.'])],limits=['공개 대시보드는 가상 자료 조회용입니다. 브라우저 CSV 체험과 로컬 저장 운영판은 제공 범위가 다릅니다.','클라우드 계정 화면은 기초자료 등록 단계이며, 클라우드 보고서 업무 전체 연결은 준비 중입니다.','외부 광고 계정 자동 수집·이메일 자동 발송·클라우드 구독 결제를 기본 기능으로 제공하지 않습니다.']),
-'agencyflow':dict(name='AgencyFlow',ko='에이전시플로우',tag='웹에이전시 · 디자인 스튜디오의 고객 피드백',summary='시안 위에 수정할 위치를 남기고, 대화·처리 상태·최종 버전을 함께 확인하세요.',url='https://agencyflow-studio-dun.vercel.app/workspace/',steps=['가상 프로젝트를 선택하고 시안 피드백 메뉴를 엽니다.','이미지 위치를 선택해 핀과 의견을 남깁니다.','담당자가 처리한 뒤 고객이 올바른 버전을 확인하고 승인합니다.'],screens=[
+'agencyflow':dict(name='ProjectFlow',ko='ProjectFlow',tag='프로젝트 · 일정 · 작업 · 자료 검토',summary='다양한 업종의 담당자·기한·단계와 작업 진행률을 관리하고, 필요한 결과물을 함께 검토하세요.',url='https://agencyflow-studio-dun.vercel.app/workspace/',steps=['가상 프로젝트를 선택하고 시안 피드백 메뉴를 엽니다.','이미지 위치를 선택해 핀과 의견을 남깁니다.','담당자가 처리한 뒤 고객이 올바른 버전을 확인하고 승인합니다.'],screens=[
  ('dash','전체 흐름','먼저 확인해야 할 프로젝트와 요청을 찾습니다.',['진행 중 프로젝트와 미완료 피드백을 확인하세요.','프로젝트 종료 예정일은 다른 세부 일정과 구분됩니다.','미수금·MRR은 결제·수금 연결 전까지 계산하지 않습니다.']),
  ('projects','프로젝트','고객·담당자·기간과 진행 단계를 연결합니다.',['프로젝트를 만들 때 고객과 담당자·기간을 확인하세요.','상담부터 검수·완료까지 단계를 바꿔 진행 상태를 공유합니다.','회사의 고객은 배정된 프로젝트만 조회하는 권한 구조입니다.']),
  ('clients','고객 관리','프로젝트의 고객과 연락 정보를 정리합니다.',['고객 등록·수정 후 프로젝트와 연결하세요.','불필요한 실제 개인정보는 샘플 체험에 입력하지 마세요.','고객 보관과 계정 접근 권한 회수는 같은 기능이 아닙니다.']),
@@ -54,13 +54,23 @@ products={
  ('dash','영업 현황','진행 중인 기회와 오늘의 연락을 확인합니다.',['등록 고객 수와 진행 중인 기회를 확인하세요.','입력 기회 금액은 확정 매출·수금·이익이나 예측 매출이 아닙니다.','오늘 연락할 내용을 살펴보고 실제 연락 후 완료 표시합니다.']),
  ('contacts','고객 관리','고객별 맥락을 기록합니다.',['고객 회사를 선택하면 담당자·연락처·유입 경로와 메모를 확인합니다.','정보 수정으로 연락 정보를 고치고 상담 기록을 추가하세요.','진행 중인 기회가 있으면 고객 보관이 제한됩니다.']),
  ('deals','영업 파이프라인','기회의 현재 단계를 구분합니다.',['고객과 연결한 영업기회를 만들고 입력 금액·목표일을 정하세요.','신규·상담·제안·협상·수주·종료 단계를 직접 변경합니다.','수주 표시는 영업 상태 기록이며 자동 결제나 입금 확인이 아닙니다.']),
- ('followups','후속 연락','다음에 할 연락을 놓치지 않도록 기록합니다.',['고객과 연락할 내용·날짜를 등록하세요.','연락이 끝난 뒤 완료 버튼을 누릅니다.','이메일·문자 알림은 자동 발송하지 않으며 일정 수정·취소는 보완 예정입니다.'])],limits=['브라우저 체험과 회사 공유 모드를 구분합니다. 샘플 담당자 전환은 권한 흐름 시연입니다.','회사·팀 권한과 체험 기간은 AgencyFlow 기반 회사 공간을 함께 사용합니다. 제품별 독립 체험이 아닙니다.','등록 한도·권한 회수·대량 조회·반출·후속 연락 수정 등 상용 운영 보완이 남아 있습니다.']),
+ ('followups','후속 연락','다음에 할 연락을 놓치지 않도록 기록합니다.',['고객과 연락할 내용·날짜를 등록하세요.','연락이 끝난 뒤 완료 버튼을 누릅니다.','이메일·문자 알림은 자동 발송하지 않으며 일정 수정·취소는 보완 예정입니다.'])],limits=['브라우저 체험과 회사 공유 모드를 구분합니다. 샘플 담당자 전환은 권한 흐름 시연입니다.','회사·팀 권한과 체험 기간은 ProjectFlow 기반 회사 공간을 함께 사용합니다. 제품별 독립 체험이 아닙니다.','등록 한도·권한 회수·대량 조회·반출·후속 연락 수정 등 상용 운영 보완이 남아 있습니다.']),
 'crewmemo':dict(name='Crewmemo',ko='Crewmemo',tag='팀 공지 · 공유 일정 · 내부 결재 · 담당 업무',summary='메신저에 묻힌 소식과 구두로 끝난 결정을 팀이 함께 확인할 수 있는 기록으로 남기세요.',url='https://flownote-studio.vercel.app/crewmemo/workspace/',steps=['오늘의 팀에서 공지·일정·내 업무를 확인합니다.','일정이나 담당 업무를 등록하고 상태를 공유합니다.','결재 요청은 다른 팀원을 지정해 검토·승인 또는 반려를 받습니다.'],screens=[
  ('dash','오늘의 팀','팀과 나에게 필요한 내용을 확인합니다.',['오늘 일정, 내 결재 대기, 미완료 업무를 살펴보세요.','팀 공지와 다가오는 일정은 등록 자료를 기준으로 표시됩니다.','샘플 담당자 전환은 실제 사용자를 초대하는 기능이 아닙니다.']),
  ('notices','공지 게시판','팀이 알아야 할 소식을 기록합니다.',['공지 작성에서 제목과 내용을 입력하세요.','관리자는 공지를 상단에 고정할 수 있습니다.','작성자 또는 관리자가 공지를 보관할 수 있습니다.']),
  ('calendar','팀 일정','회의와 공유 일정을 한곳에서 확인합니다.',['시작·종료 시각과 장소를 입력합니다.','종료 시각은 시작 시각 이후여야 합니다.','일정 내용 수정·취소와 외부 캘린더 동기화는 제공 범위에 포함되지 않습니다.']),
  ('approvals','내부 결재','서로 다른 사람이 요청과 검토를 맡습니다.',['작성자가 다른 내부 팀원을 결재자로 지정합니다.','지정 결재자만 대기 문서를 승인·반려할 수 있습니다.','처리된 문서를 다시 승인할 수 없습니다. 실제 지급이나 계약 전자서명은 실행하지 않습니다.']),
  ('tasks','팀 업무','담당자와 마감일을 명확히 합니다.',['업무 제목·담당자·기한·우선순위를 등록합니다.','대기·진행중·완료 상태를 직접 변경합니다.','업무 내용·담당자·기한 수정과 취소는 보완 예정입니다.'])],limits=['공지·일정·내부 결재·업무 공유에 집중하는 초기 검증판입니다. 급여·근태·회계·사내 메신저를 포함한 종합 그룹웨어는 아닙니다.','다른 결재자가 필요하므로 내부 구성원 2명 이상이 필요합니다. 공통 Lite 1좌석 정책과의 상품 조정이 남아 있습니다.','회사 모드는 공통 회사·체험 권한을 사용합니다. 가입 메일·결제·권한 회수·복구 등의 운영 보완이 남아 있습니다.'])}
+
+
+selected_products = [sys.argv[sys.argv.index('--product')+1]] if '--product' in sys.argv else list(products)
+if any(k not in products for k in selected_products): raise ValueError('Unknown product')
+products['agencyflow'].update(steps=['고객 또는 내부 요청 부서를 등록하고 프로젝트의 담당자·기간·단계를 정합니다.','프로젝트 개요에서 작업을 추가하고 상태·우선순위·기한을 관리합니다.','진척과 기한 초과를 확인하고 필요한 자료만 검토·승인합니다.'],screens=[
+ ('dash','전체 흐름','여러 프로젝트의 진행 상황을 확인합니다.',['진행 중·완료·운영 프로젝트와 기한 초과 작업을 확인합니다.','프로젝트 제목을 눌러 개요로 이동합니다.','수치는 실제 매출이나 공수 예측이 아니라 등록된 자료의 집계입니다.']),
+ ('projects','프로젝트 보드','업종에 관계없이 단계를 관리합니다.',['프로젝트명 또는 담당자 이름으로 검색합니다.','접수·계획·승인·준비·실행·검토·완료·운영 단계로 표시합니다.','변경 내용은 샘플에서는 브라우저, 회사 모드에서는 기존 회사 권한에 따라 저장됩니다.']),
+ ('overview','프로젝트 개요','담당자·일정·진척을 한곳에 모았습니다.',['등록 작업의 완료 비율을 확인합니다. 작업이 없으면 미측정으로 표시합니다.','기한을 넘긴 미완료 작업과 프로젝트 일정을 확인합니다.','작업 완료율이 고객 승인이나 실제 납품 완료를 뜻하지 않습니다.']),
+]+products['agencyflow']['screens'][2:],limits=['샘플은 이 브라우저에만 저장됩니다. 회사 모드는 기존 회사 권한과 DB 명령을 사용하며 이번 PMS 확장 동선의 실제 회사 계정 HTTP 검증은 수행하지 않았습니다.','프로젝트·작업·단계·기한·진척·자료 검토를 지원하는 1차 확장판입니다. 간트 차트·작업 의존관계·공수·반복 일정 자동화는 제공하지 않습니다.','결제·일반 고객 메일·전자서명·임의 웹사이트 자동 검수는 준비 중입니다.'])
+products['agencyflow']['screens']=[(v,t,d,['작업 범위에서 선택 프로젝트 또는 전체 프로젝트를 고릅니다.','프로젝트·담당자·마감일·우선순위를 등록하고 상태를 변경합니다.','완료 처리하면 해당 프로젝트의 작업 완료율에 반영됩니다.']) if v=='tasks' else (v,t,d,steps) for v,t,d,steps in products['agencyflow']['screens']]
 
 def para(c,text,x,y,width=515,size=13,color=INK,bold=False):
     st=ParagraphStyle('p',parent=STYLE,fontName='PretendardBold' if bold else 'Pretendard',fontSize=size,leading=size*1.65,textColor=color)
@@ -85,10 +95,11 @@ def shell(c,p,page,section):
     c.setFillColor(white);c.rect(0,0,W,H,fill=1,stroke=0);logo(c,p,40,H-66,30)
     c.setFillColor(INK);c.setFont('PretendardBold',12);c.drawString(82,H-47,products[p]['name'])
     c.setFillColor(MUTED);c.setFont('Pretendard',9);c.drawRightString(W-40,H-47,'ENOTE-LABS | 제품 소개 · 사용 가이드')
-    c.setStrokeColor(LINE);c.line(40,43,W-40,43);c.setFont('Pretendard',9);c.drawString(40,27,'2026.10.30 · 초기 검증판 · 가상 자료 화면');c.drawRightString(W-40,27,f'{page:02d}')
+    c.setStrokeColor(LINE);c.line(40,43,W-40,43);c.setFont('Pretendard',9);c.drawString(40,27,'2026.10.31 · 초기 검증판 · 가상 자료 화면');c.drawRightString(W-40,27,f'{page:02d}')
     c.bookmarkPage('page'+str(page));c.addOutlineEntry(section,'page'+str(page),level=0,closed=False)
 
-for key,p in products.items():
+for key in selected_products:
+    p=products[key]
     path=OUT/(key+'-guide.pdf');c=canvas.Canvas(str(path),pagesize=(W,H));c.setTitle(p['name']+' 제품소개 및 사용 매뉴얼 | ENOTE-LABS');c.setAuthor('ENOTE-LABS (이노트랩스)')
     page=1;shell(c,key,page,'제품 소개');y=H-116;y=para(c,p['name'],40,y,size=35,bold=True);y=para(c,p['ko']+' | '+p['tag'],40,y,size=15,color=GREEN);y=para(c,p['summary'],40,y-10,size=19,bold=True)
     c.drawImage(str(SHOTS/(key+'-dash.jpg')),40,194,width=515,height=326,preserveAspectRatio=True,anchor='c',mask='auto')
@@ -112,13 +123,13 @@ for key,p in products.items():
     page+=1;shell(c,key,page,'제공 범위와 도입 안내');y=H-112;y=para(c,'도입 전에 확인해 주세요.',40,y,size=25,bold=True)
     for item in p['limits']:y=para(c,item,40,y-15)
     y=para(c,'도입·교육·맞춤 구축',40,y-25,size=18,bold=True);y=para(c,'회사 업무와 필요한 기능을 확인한 뒤 도입 범위·기간·비용·지원 조건을 정합니다. 이 문서는 자동 결제나 계약 체결을 실행하지 않습니다.',40,y)
-    y=para(c,'제품 자료는 2026년 10월 30일 구현 범위를 기준으로 작성했습니다. 준비 중인 기능을 완료 기능으로 안내하지 않습니다.',40,y,size=11,color=MUTED)
+    y=para(c,'제품 자료는 2026년 10월 31일 구현 범위를 기준으로 작성했습니다. 준비 중인 기능을 완료 기능으로 안내하지 않습니다.',40,y,size=11,color=MUTED)
     y=para(c,'상담: ENOTE-LABS(이노트랩스) · 텔레그램 @evanlee97',40,y-20,size=13,bold=True);c.linkURL('https://t.me/evanlee97',(40,y,555,y+35),relative=0,thickness=0);c.showPage();c.save()
     assert len(PdfReader(path).pages)==len(p['screens'])+3
     target=PUBLIC/'manuals'/path.name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,target)
 
 # Draw the same identities for PNG favicons and social cards; rasterization is mechanical.
-for kind in ['flownote','agencyflow','follonote','crewmemo','enote']:
+for kind in (selected_products if '--product' in sys.argv else ['flownote','agencyflow','follonote','crewmemo','enote']):
     raw=io.BytesIO();cc=canvas.Canvas(raw,pagesize=(64,64));logo(cc,kind,0,0,64);cc.showPage();cc.save()
     doc=pdfium.PdfDocument(raw.getvalue());im=doc[0].render(scale=4).to_pil().convert('RGBA')
     for size in [32,180]:
@@ -139,7 +150,7 @@ for kind in products:
     if kind in ['follonote','crewmemo']:shutil.copyfile(SHOTS/(kind+'-dash.jpg'),PUBLIC/'product-assets'/(kind+'-screen.jpg'))
 
 # Render every PDF page for mandatory visual review and text verification.
-for path in OUT.glob('*-guide.pdf'):
+for path in [OUT/(key+'-guide.pdf') for key in selected_products]:
     doc=pdfium.PdfDocument(str(path));pages=[]
     for i in range(len(doc)):
         image=doc[i].render(scale=0.65).to_pil().convert('RGB');image.save(TMP/f'{path.stem}-{i+1:02d}.png');pages.append(image)
