@@ -438,7 +438,7 @@ export default function Workspace() {
         </nav>
         <div className="rail-bottom">
           <a
-            href="/manuals/agencyflow-guide.pdf"
+            href="/manuals/agencyflow-guide-orange-20261031.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >

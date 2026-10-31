@@ -15,15 +15,44 @@ assert(
 const captures = JSON.parse(await read("studio/assets/capture-manifest.json"));
 assert.equal(captures.screens.length, 4);
 for (const kind of ["flownote", "agencyflow", "follonote", "crewmemo"]) {
-  assert(html.includes("/manuals/" + kind + "-guide.pdf"));
+  assert(html.includes("/manuals/" + kind + "-guide-orange-20261031.pdf"));
   const pdf = await readFile(
-    new URL("dist/manuals/" + kind + "-guide.pdf", root),
+    new URL("dist/manuals/" + kind + "-guide-orange-20261031.pdf", root),
   );
   assert.equal(pdf.toString("ascii", 0, 5), "%PDF-");
 }
 for (const name of ["Flownote", "ProjectFlow", "Follonote", "Crewmemo"])
   assert(html.includes(name));
-assert(html.includes("https://flownote-studio.vercel.app/"));
+const siteOrigin = "https://enote-labs.vercel.app/";
+assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)[1], siteOrigin);
+assert.equal(html.match(/property="og:url" content="([^"]+)"/)[1], siteOrigin);
+const ogDescription = html.match(
+  /property="og:description" content="([^"]+)"/,
+)[1];
+assert(ogDescription.length > 30);
+assert.equal(
+  html.match(/name="twitter:description" content="([^"]+)"/)[1],
+  ogDescription,
+);
+const graph = JSON.parse(
+  html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1],
+);
+assert(
+  graph["@graph"].some(
+    (x) =>
+      x["@type"] === "Organization" && x.email === "leejinho970715@gmail.com",
+  ),
+);
+const sitemap = await read("dist/sitemap.xml");
+assert.deepEqual(
+  [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((x) => x[1]),
+  [siteOrigin],
+);
+const companyOG = await readFile(
+  new URL("dist/assets/og-enote-labs-20261031.png", root),
+);
+assert.equal(companyOG.readUInt32BE(16), 1200);
+assert.equal(companyOG.readUInt32BE(20), 630);
 assert.equal((html.match(/<h1>/g) || []).length, 1);
 assert(html.includes("application/ld+json"));
 assert(html.includes("아직") || html.includes("준비 중"));
@@ -44,10 +73,12 @@ for (const kind of ["follonote", "crewmemo"]) {
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
 }
-for (const name of ["report","feedback","crm","team","check"]) {
- const asset = await readFile(new URL("dist/assets/clay/"+name+".webp",root));
- assert.equal(asset.toString("ascii",0,4),"RIFF");
- assert.equal(asset.toString("ascii",8,12),"WEBP");
+for (const name of ["report", "feedback", "crm", "team", "check", "custom"]) {
+  const asset = await readFile(
+    new URL("dist/assets/clay/" + name + ".webp", root),
+  );
+  assert.equal(asset.toString("ascii", 0, 4), "RIFF");
+  assert.equal(asset.toString("ascii", 8, 12), "WEBP");
 }
 const main = await read("dist/main.js");
 assert(main.includes("ScrollTrigger"));

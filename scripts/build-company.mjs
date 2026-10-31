@@ -62,15 +62,14 @@ await copyFile(
 );
 await writeFile(
   new URL("robots.txt", dist),
-  "User-agent: *\nAllow: /\nDisallow: /follonote/workspace/\nDisallow: /crewmemo/workspace/\nSitemap: https://flownote-studio.vercel.app/sitemap.xml\n",
+  "User-agent: *\nAllow: /\nSitemap: https://enote-labs.vercel.app/sitemap.xml\n",
 );
 await writeFile(
   new URL("sitemap.xml", dist),
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
-    ["/", "/follonote/", "/crewmemo/"]
+    ["/"]
       .map(
-        (p) =>
-          "<url><loc>https://flownote-studio.vercel.app" + p + "</loc></url>",
+        (p) => "<url><loc>https://enote-labs.vercel.app" + p + "</loc></url>",
       )
       .join("") +
     "</urlset>",

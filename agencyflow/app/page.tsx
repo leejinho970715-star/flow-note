@@ -22,7 +22,7 @@ export default function Home() {
       <main className="public-main">
         <a
           className="button"
-          href="/manuals/agencyflow-guide.pdf"
+          href="/manuals/agencyflow-guide-orange-20261031.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -31,3 +31,5 @@ Landing illustrations use five generated orange/cream 3D clay WebP assets in stu
 ProjectFlow expands project operations with general stage labels over compatible stored codes, project overview, scoped task progress, due flags, search and cross-project work view. Client assignment and existing RPCs/RLS remain unchanged.
 
 Marketing contrast accents reuse charcoal #26221f from the closing CTA in the selected product tab, the first setup step and the featured pricing card, with ivory text and peach highlights. The hero screenshot has a versioned orange capture URL to invalidate older green previews.
+
+Company public origin: https://enote-labs.vercel.app. Existing company alias remains available; product Auth return addresses remain unchanged. New transparent E/note mark and orange screenshot/PDF asset filenames avoid stale green previews. Capability keywords form a separate full-width charcoal section with large white text and five matching clay objects.

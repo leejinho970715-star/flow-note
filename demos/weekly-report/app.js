@@ -17,7 +17,7 @@ function calculate() {
   current = data ? report(data,start,client) : null;
 }
 function render() {
-  root.innerHTML = `<header class="topbar"><a class="brand" href="./"><img class="demo-brand-image" src="./assets/brandmark.png?v=2" alt="Flownote 로고" width="40" height="40">flownote<span class="brand-divider"></span><span class="product-name">주간보고 자동화</span></a><div class="top-right"><span class="local-dot"></span><span class="local-label">브라우저 내 처리</span><a class="tag" href="/workspace">워크스페이스 ↗</a></div></header>
+  root.innerHTML = `<header class="topbar"><a class="brand" href="./"><img class="demo-brand-image" src="./assets/flownote-logo.svg?v=4" alt="Flownote 로고" width="40" height="40">flownote<span class="brand-divider"></span><span class="product-name">주간보고 자동화</span></a><div class="top-right"><span class="local-dot"></span><span class="local-label">브라우저 내 처리</span><a class="tag" href="/workspace">워크스페이스 ↗</a></div></header>
   <main><div class="intro"><div><div class="eyebrow">WEEKLY REPORT, WITHOUT THE REPETITION</div><h1>반복 정리는 줄이고,<br class="mobile-break"> 검토에 집중하세요.</h1><p>CSV 한 양식을 고객사별 주간보고로. 숫자의 출처와 제외된 행까지 함께 확인합니다.</p></div><div class="intro-note"><b>작동하는 작은 샘플</b><span>실제 CSV 집계 · 실제 오류 검사<br>광고 API·AI 호출 없이 실행</span></div></div>
   <ol class="steps"><li><b>01</b> CSV 가져오기</li><li><b>02</b> 오류 확인하기</li><li><b>03</b> 고객별 보고서 받기</li></ol>
   ${fatal?`<div role="alert" class="fatal"><strong>처리를 중단했습니다.</strong> ${e(fatal)}<br><small>이전 결과도 비웠습니다. 파일을 수정하거나 샘플로 다시 실행하세요.</small></div>`:''}

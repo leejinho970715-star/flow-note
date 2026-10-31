@@ -1,10 +1,10 @@
 import {readFile,writeFile} from 'node:fs/promises';
 const read=name=>readFile(new URL(name,import.meta.url),'utf8');
 const [html,css,core,app,sample]=await Promise.all(['index.html','style.css','core.js','app.js','fixtures/sample.csv'].map(read));
-const logoData='data:image/png;base64,'+(await readFile(new URL('assets/brandmark.png',import.meta.url))).toString('base64');
+const logoData='data:image/svg+xml;base64,'+(await readFile(new URL('assets/flownote-logo.svg',import.meta.url))).toString('base64');
 const fontData='data:font/woff2;base64,'+(await readFile(new URL('assets/PretendardVariable.woff2',import.meta.url))).toString('base64');
 const faviconData='data:image/png;base64,'+(await readFile(new URL('assets/favicon-32.png',import.meta.url))).toString('base64');
-const embeddedApp=app.replace(/^import[^\n]+\n/,'const e = escapeHTML;\n').replaceAll('./assets/brandmark.png?v=2',logoData).replaceAll('./assets/brandmark.png',logoData).replaceAll("fetch('./fixtures/sample.csv',{cache:'no-store'})","Promise.resolve({ok:true,text:async()=>SAMPLE_CSV})").replaceAll("fetch('./fixtures/sample.csv')","Promise.resolve({ok:true,text:async()=>SAMPLE_CSV})");
+const embeddedApp=app.replaceAll('./assets/flownote-logo.svg?v=4',logoData).replaceAll('./assets/flownote-logo.svg',logoData).replace(/^import[^\n]+\n/,'const e = escapeHTML;\n').replaceAll('./assets/brandmark.png?v=2',logoData).replaceAll('./assets/brandmark.png',logoData).replaceAll("fetch('./fixtures/sample.csv',{cache:'no-store'})","Promise.resolve({ok:true,text:async()=>SAMPLE_CSV})").replaceAll("fetch('./fixtures/sample.csv')","Promise.resolve({ok:true,text:async()=>SAMPLE_CSV})");
 const script=`const SAMPLE_CSV = ${JSON.stringify(sample)};\n${core.replace(/^export /gm,'')}\n${embeddedApp}`.replace(/<\/script/gi,'<\\/script');
 const output=html.replace('<link rel="stylesheet" href="./style.css">',`<style>${css.replace('./assets/PretendardVariable.woff2',fontData)}</style>`).replace('<script type="module" src="./app.js"></script>',`<script type="module">${script}</script>`).replace(/<link rel="preload"[^>]+>/g,'').replace(/<link rel="(?:icon|shortcut icon|apple-touch-icon)"[^>]+>/g,'').replace('</head>',`<link rel="icon" href="${faviconData}"></head>`);
 await writeFile(new URL('flownote-demo.html',import.meta.url),output);

@@ -190,9 +190,9 @@ document.querySelector("#inquiry").addEventListener("submit", async (e) => {
   try {
     await navigator.clipboard.writeText(draft);
     document.querySelector("#form-status").textContent =
-      "복사했습니다. 텔레그램 @evanlee97 대화창에 직접 붙여 넣어 보내주세요. 아직 접수되지 않았습니다.";
+      "복사했습니다. 이메일 leejinho970715@gmail.com 또는 텔레그램 @evanlee97에 직접 붙여 넣어 보내주세요. 아직 접수되지 않았습니다.";
   } catch {
     document.querySelector("#form-status").textContent =
-      "자동 복사가 제한되었습니다. 작성한 내용을 선택해 복사한 뒤 텔레그램에 직접 보내주세요.";
+      "자동 복사가 제한되었습니다. 작성한 내용을 선택해 복사한 뒤 이메일 또는 텔레그램에 직접 보내주세요.";
   }
 });

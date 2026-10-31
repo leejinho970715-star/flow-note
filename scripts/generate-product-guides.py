@@ -77,6 +77,8 @@ def para(c,text,x,y,width=515,size=13,color=INK,bold=False):
     p=Paragraph(escape(text),st); _,height=p.wrap(width,1000);p.drawOn(c,x,y-height);return y-height-12
 
 def logo(c,kind,x,y,size=36):
+    if kind=='enote' and (ROOT/'studio/assets/enote-labs-logo-20261031.png').exists():
+        c.drawImage(ImageReader(str(ROOT/'studio/assets/enote-labs-logo-20261031.png')),x,y,width=size,height=size,mask='auto');return
     c.saveState();c.translate(x,y);c.scale(size/64,size/64)
     c.setFillColor(HexColor('#ed7834') if kind=='enote' else GREEN);c.roundRect(2,2,60,60,17,fill=1,stroke=0)
     c.setStrokeColor(white);c.setLineWidth(3.5);c.setLineCap(1);c.setLineJoin(1)
@@ -126,7 +128,7 @@ for key in selected_products:
     y=para(c,'제품 자료는 2026년 10월 31일 구현 범위를 기준으로 작성했습니다. 준비 중인 기능을 완료 기능으로 안내하지 않습니다.',40,y,size=11,color=MUTED)
     y=para(c,'상담: ENOTE-LABS(이노트랩스) · 텔레그램 @evanlee97',40,y-20,size=13,bold=True);c.linkURL('https://t.me/evanlee97',(40,y,555,y+35),relative=0,thickness=0);c.showPage();c.save()
     assert len(PdfReader(path).pages)==len(p['screens'])+3
-    target=PUBLIC/'manuals'/path.name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,target)
+    target=PUBLIC/'manuals'/path.name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,target);shutil.copyfile(path,PUBLIC/'manuals'/(key+'-guide-orange-20261031.pdf'))
 
 # Draw the same identities for PNG favicons and social cards; rasterization is mechanical.
 for kind in (selected_products if '--product' in sys.argv else ['flownote','agencyflow','follonote','crewmemo','enote']):

@@ -71,7 +71,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
           <span className="brand-copy">{p.name}<small>{p.category}</small></span>
         </a>
         <nav>
-          <a href={studioOrigin + "/"}>ENOTE-LABS</a>
+          <a href="https://enote-labs.vercel.app/">ENOTE-LABS</a>
           <a
             className="button primary"
             href={studioOrigin + "/" + kind + "/workspace/"}
@@ -105,7 +105,7 @@ export default function StudioProductHome({ kind }: { kind: ProductKind }) {
             </div>
             <a
               className="button"
-              href={"/manuals/" + kind + "-guide.pdf"}
+              href={"/manuals/" + kind + "-guide-orange-20261031.pdf"}
               target="_blank"
               rel="noopener noreferrer"
             >
