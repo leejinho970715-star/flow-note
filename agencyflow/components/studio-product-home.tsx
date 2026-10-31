@@ -6,7 +6,7 @@ export function productMetadata(kind: ProductKind, workspace = false) {
   return {
     metadataBase: new URL(studioOrigin),
     title: {
-      absolute: `${p.name} — ${p.ko} ${workspace ? "워크스페이스" : p.description}`,
+      absolute: `${p.name} — ${workspace ? "워크스페이스" : p.description}`,
     },
     description: p.description,
     alternates: { canonical: studioOrigin + path },

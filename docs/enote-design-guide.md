@@ -1,6 +1,6 @@
 # ENOTE-LABS product design guide
 
-Company: ENOTE-LABS (이노트랩스). Product names remain Flownote, AgencyFlow, Follonote (팔로노트), Crewmemo (크루메모). Existing production URLs and authentication callbacks are unchanged.
+Company: ENOTE-LABS (이노트랩스). Product names remain Flownote, AgencyFlow, Follonote, Crewmemo. Existing production URLs and authentication callbacks are unchanged.
 
 ## Shared workspace foundation
 
