@@ -64,7 +64,7 @@ app=app.replace("name:'자료 확인 · 초안 작성',desc:'CSV를 넣고 원�
 app=app.replace('체크 표시는 저장된 자료의 준비 상태입니다. 다운로드·고객 수신을 자동 확인한 표시는 아닙니다.','아래는 가상 작업 흐름 예시입니다. 공개 체험판은 조회 전용이며 CSV 직접 체험은 브라우저 안에서 동작합니다.');
 app=app.replace("if(el.dataset.helpView){if(state)",`if(el.dataset.helpView==='compose'){location.href='${base}csv.html';return;}\n  if(el.dataset.helpView){if(state)`);
 app=app.replaceAll('/api/workspace/reports/${r.id}/download?format=html',base+'downloads/${r.id}.html').replaceAll('/api/workspace/reports/${r.id}/download?format=csv',base+'downloads/${r.id}.csv');
-app=app.replace('<div class="rail-bottom">',`<div class="rail-bottom"><a href="https://flownote-studio.vercel.app/">← 서비스 소개</a><a href="https://agencyflow-studio-dun.vercel.app/">AgencyFlow 시안 피드백 ↗</a>`);
+app=app.replace('<div class="rail-bottom">',`<div class="rail-bottom"><a href="https://flownote-studio.vercel.app/">← 서비스 소개</a><a href="https://agencyflow-studio-dun.vercel.app/">ProjectFlow 프로젝트 관리 ↗</a>`);
 app=app.replaceAll("from '/","from '"+base).replaceAll('src="/','src="'+base).replaceAll('href="/workspace"',`href="${base}workspace/"`).replaceAll('href="/"',`href="${base}csv.html"`);
 await writeFile(new URL('workspace.js',output),app);
 const html=(await read('workspace.html')).replaceAll('__FLOWNOTE_ORIGIN__/workspace',origin+base+'workspace/').replaceAll('__FLOWNOTE_ORIGIN__',origin+base.slice(0,-1)).replaceAll('href="/','href="'+base).replaceAll('src="/','src="'+base).replace('</head>','<meta name="robots" content="noindex,follow"></head>');

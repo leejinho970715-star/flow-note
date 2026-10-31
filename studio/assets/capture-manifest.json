@@ -28,5 +28,12 @@
       "note": "Orange UI release candidate"
     }
   ],
-  "captureEnvironment": "Local static production builds, 2026-10-31 KST"
+  "captureEnvironment": "Local static production builds, 2026-10-31 KST",
+  "hero": {
+    "file": "flownote-erp-orange-20261031.jpg",
+    "source": "https://flow-note-psi.vercel.app/workspace/",
+    "view": "전체 업무 · 오렌지 ERP 테마",
+    "capturedOn": "2026-10-31",
+    "note": "New asset URL prevents reuse of an earlier cached green capture."
+  }
 }

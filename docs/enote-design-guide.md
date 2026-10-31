@@ -29,3 +29,5 @@ Product labels: Flownote — ERP; ProjectFlow — PMS (Project & Feedback); Foll
 
 Landing illustrations use five generated orange/cream 3D clay WebP assets in studio/assets/clay, preserving transparency. The ENOTE-LABS brand mark, utility arrows and authentic product screenshot UI retain their identity.
 ProjectFlow expands project operations with general stage labels over compatible stored codes, project overview, scoped task progress, due flags, search and cross-project work view. Client assignment and existing RPCs/RLS remain unchanged.
+
+Marketing contrast accents reuse charcoal #26221f from the closing CTA in the selected product tab, the first setup step and the featured pricing card, with ivory text and peach highlights. The hero screenshot has a versioned orange capture URL to invalidate older green previews.

@@ -700,6 +700,17 @@ a:focus-visible {
   font-size: 15px;
   margin-top: 8px;
 }
+.steps li:first-child {
+  background: linear-gradient(135deg, #26221f, #382a22);
+  border-color: #49372c;
+  color: #fff6ef;
+}
+.steps li:first-child > span {
+  color: #ffb57f;
+}
+.steps li:first-child p {
+  color: #e5d2c5;
+}
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -714,9 +725,18 @@ a:focus-visible {
   flex-direction: column;
 }
 .price-card.featured {
-  background: #fff8f1;
-  border-color: #f1b68d;
-  box-shadow: 0 15px 40px #ec883017;
+  background: linear-gradient(145deg, #26221f, #34271f);
+  border-color: #5c4030;
+  color: #fff6ef;
+  box-shadow: 0 15px 40px #33211620;
+}
+.price-card.featured .eyebrow,
+.price-card.featured .price {
+  color: #ffbb8b;
+}
+.price-card.featured p,
+.price-card.featured ul {
+  color: #e5d2c5;
 }
 .price-card h3 {
   font-size: 22px;
@@ -1938,4 +1958,14 @@ a:focus-visible {
     width: 74px;
     height: 82px;
   }
+}
+.product-tabs button[aria-selected="true"],
+.product-tabs button[aria-selected="true"]:hover {
+  background: #26221f;
+  color: #fff6ef;
+  border-color: #e99559;
+  box-shadow: 0 6px 18px #3321161a;
+}
+.product-tabs button[aria-selected="true"] small {
+  color: #f5cfb4;
 }
